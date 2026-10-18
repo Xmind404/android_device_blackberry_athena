@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2015, The Linux Foundation. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided
+with the distribution.
+* Neither the name of The Linux Foundation nor the names of its
+contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
+-->
+
+<device name="Android">
+    <!-- All values are in mA except as noted -->
+    <!-- Nothing -->
+    <item name="none">0</item>
+    <item name="screen.on">63</item>
+    <item name="screen.full">261</item>
+    <!-- Additional power used when Wi-Fi is turned on but not receiving,
+    transmitting, or scanning -->
+    <item name="wifi.on">0.606</item>
+    <!-- Additional power used when transmitting or receiving over Wi-Fi -->
+    <item name="wifi.active">74.462</item>
+    <!-- Additional power used when Wi-Fi is scanning for access points -->
+    <item name="wifi.scan">25.088</item>
+    <!-- Average power use by the camera subsystem for a typical camera
+    application. Intended as a rough estimate for an application running a
+    preview and capturing approximately 10 full-resolution pictures per
+    minute. -->
+    <item name="camera.avg">374.399</item>
+    <!-- Average power used by the camera flash module when on -->
+    <item name="camera.flashlight">265.769</item>
+    <!-- Additional power used when GPS is acquiring a signal -->
+    <item name="gps.on">21.412</item>
+    <!-- Additional power used when cellular radio is transmitting/receiving -->
+    <item name="radio.active">208.332</item>
+    <!-- The current consumed by the radio when it is scanning for a signal -->
+    <item name="radio.scanning">46.310</item>
+    <!-- Current consumed by the radio at different signal strengths, when paging -->
+    <array name="radio.on">
+        <value>33.079</value>
+        <value>30</value>
+        <value>25</value>
+        <value>20</value>
+        <value>15</value>
+        <value>10</value>
+        <value>5</value>
+        <value>1.090</value>
+    </array>
+    <!-- Number of cores each CPU cluster contains -->
+    <array name="cpu.clusters.cores">
+        <value>4</value> <!-- Cluster 0 has 4 cores (cpu0, cpu1, cpu2, cpu3) -->
+        <value>4</value> <!-- Cluster 1 has 4 cores (cpu4, cpu5, cpu6, cpu7) -->
+    </array>
+    <!-- cluster0 = A53 little (cpu0-3). Speeds match the device's
+         cpu0/cpufreq/scaling_available_frequencies exactly; note 1612800 is in
+         the DT table (sdm660.dtsi qcom,cpufreq-table-0) but is NOT exposed by
+         the clock driver, so it must not be listed here - these arrays are
+         indexed by position against the kernel's time_in_state. -->
+    <array name="cpu.core_speeds.cluster0">
+        <value>633600</value> <!-- 633 MHz CPU speed -->
+        <value>902400</value> <!-- 902 MHz CPU speed -->
+        <value>1113600</value> <!-- 1113 MHz CPU speed -->
+        <value>1401600</value> <!-- 1401 MHz CPU speed -->
+        <value>1536000</value> <!-- 1536 MHz CPU speed -->
+        <value>1747200</value> <!-- 1747 MHz CPU speed -->
+        <value>1843200</value> <!-- 1843 MHz CPU speed -->
+    </array>
+    <!-- cluster1 = A73 big (cpu4-7). Matches cpu4 scaling_available_frequencies;
+         1804800 and 2457600 are in the DT table but not exposed. -->
+    <array name="cpu.core_speeds.cluster1">
+        <value>1113600</value> <!-- 1113 MHz CPU speed -->
+        <value>1401600</value> <!-- 1401 MHz CPU speed -->
+        <value>1747200</value> <!-- 1747 MHz CPU speed -->
+        <value>1958400</value> <!-- 1958 MHz CPU speed -->
+        <value>2150400</value> <!-- 2150 MHz CPU speed -->
+        <value>2208000</value> <!-- 2208 MHz CPU speed -->
+    </array>
+    <!-- Draw figures below are the SDM660 reference values (Redmi Note 7
+         sdm660-common), which uses this identical OPP set. The previous values
+         here were keyed to frequencies this SoC does not have, so every bucket
+         was misattributed. Replace with athena-measured values when available. -->
+    <array name="cpu.core_power.cluster0">
+        <value>10</value> <!-- 633 MHz CPU speed -->
+        <value>15</value> <!-- 902 MHz CPU speed -->
+        <value>20</value> <!-- 1113 MHz CPU speed -->
+        <value>30</value> <!-- 1401 MHz CPU speed -->
+        <value>35</value> <!-- 1536 MHz CPU speed -->
+        <value>45</value> <!-- 1747 MHz CPU speed -->
+        <value>52</value> <!-- 1843 MHz CPU speed -->
+    </array>
+    <array name="cpu.core_power.cluster1">
+        <value>53</value> <!-- 1113 MHz CPU speed -->
+        <value>83</value> <!-- 1401 MHz CPU speed -->
+        <value>129</value> <!-- 1747 MHz CPU speed -->
+        <value>174</value> <!-- 1958 MHz CPU speed -->
+        <value>196</value> <!-- 2150 MHz CPU speed -->
+        <value>222</value> <!-- 2208 MHz CPU speed -->
+    </array>
+    <!-- Additional power consumption by CPU cluster0 itself when running
+    excluding cores in it -->
+    <item name="cpu.cluster_power.cluster0">4.27</item>
+    <!-- Additional power consumption by CPU cluster1 itself when running
+    excluding cores in it -->
+    <item name="cpu.cluster_power.cluster1">7.22</item>
+    <!-- Power consumption when CPU is suspended -->
+    <item name="cpu.suspend">3.993</item>
+    <!-- Additional power consumption when CPU is in a kernel idle loop -->
+    <item name="cpu.idle">2.969</item>
+    <!-- Additional power consumption by CPU excluding cluster and core when
+    running -->
+    <item name="cpu.active">3.5</item>
+    <!-- This is the battery capacity in mAh -->
+    <!-- This is the battery capacity in mAh (measured at nominal voltage) -->
+    <!-- 3500 mAh design capacity, from athena's own fuel gauge profile:
+         fg-gen3-batterydata-byd-3500mah.dtsi qcom,nom-batt-capacity-mah = <3500>
+         (BYD #3300156_TCL_AthenaBYD_3500mAh), referenced via &mtp_batterydata
+         in sdm660-bbry-athena.dtsi. Do NOT use the device's
+         charge_full_design sysfs value here - qpnp-fg-gen3 returns
+         cl.nom_cap_uah from the capacity-learning block, which is the aged
+         per-unit measurement, not the design figure. -->
+    <item name="battery.capacity">3500</item>
+</device>
