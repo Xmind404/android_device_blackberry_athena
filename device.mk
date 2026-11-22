@@ -52,17 +52,6 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-4096-dalvik-heap.mk)
 # GMS
 PRODUCT_GMS_CLIENTID_BASE := android-blackberry
 
-# Lokker
-PRODUCT_PACKAGES += \
-    Lokker
-
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/prebuilt/com.lokker.app.privapp-permissions.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/com.lokker.app.privapp-permissions.xml
-
-# K12KB keyboard app
-PRODUCT_PACKAGES += \
-    K12KB
-
 # Touchkeypad
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/init/init.athena.touchkeypad.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.athena.touchkeypad.rc \
