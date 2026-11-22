@@ -29,5 +29,5 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     SystemDevice=bbf100
 
 # OTA Updater
-PRODUCT_PROPERTY_OVERRIDES += \
+PRODUCT_SYSTEM_PROPERTIES += \
     lineage.updater.uri=https://raw.githubusercontent.com/Xmind404/distribution/main/{device}.json
