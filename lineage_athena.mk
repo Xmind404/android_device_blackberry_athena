@@ -30,4 +30,4 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 
 # OTA Updater
 PRODUCT_SYSTEM_PROPERTIES += \
-    lineage.updater.uri=https://raw.githubusercontent.com/Xmind404/distribution/main/{device}.json
+    lineage.updater.uri=https://raw.githubusercontent.com/Xmind404/distribution/lineage-24.0/{device}.json
