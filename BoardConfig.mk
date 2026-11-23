@@ -34,7 +34,8 @@ BOARD_SUPPORTS_SOUND_TRIGGER := true
 BOARD_USES_ALSA_AUDIO := true
 
 # Boot animation
-TARGET_BOOTANIMATION := vendor/blackberry/athena/media/bootanimation.zip
+# Falls back to the Lineage animation when vendor/blackberry/media is absent.
+TARGET_BOOTANIMATION := $(wildcard vendor/blackberry/media/bootanimation.zip)
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := sdm660
