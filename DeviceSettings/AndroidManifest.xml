@@ -27,6 +27,10 @@
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <!-- Long-press target of the keyboard touchpad Quick Settings tile. -->
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
             <meta-data
                 android:name="com.android.settings.category"
                 android:value="com.android.settings.category.ia.system" />
@@ -68,6 +72,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/legacy_apk_paths" />
         </provider>
+
+        <service
+            android:name=".KeyboardTouchpadTileService"
+            android:label="@string/tile_keyboard_touchpad"
+            android:icon="@drawable/ic_qs_keyboard_touchpad"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
 
         <!-- A Display entry hosted by this existing app; no Settings fork needed. -->
         <activity
