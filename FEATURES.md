@@ -23,6 +23,8 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 11 | PIN / hasło blokady z klawiatury | not started | `c87cf219`, `ba9b79d1` (adapted) |
 | 12 | Bateria (power_profile, deep sleep, cpufreq, ChargingControl) | not started | `0693b591` |
 | 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
+| 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, start/stop wideo) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor athena 74d38bf, device 99910ba |
+| 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor athena c81a529 |
 
 ## Plan testów (komendy uzupełniam w miarę implementacji)
 
@@ -66,6 +68,25 @@ adb shell ls /sys/class/leds/ > ~/logs/backlight.txt
 adb shell dumpsys power | grep -E "mKeyboard|mButton|mScreenBrightnessSetting" >> ~/logs/backlight.txt
 adb shell settings put secure keyboard_backlight_timeout 3000   # zmiana działa od razu
 adb shell dumpsys power | grep -i wake_lock >> ~/logs/backlight.txt   # brak wakelocków od podświetlenia
+```
+
+### 14. Dźwięki BlackBerry
+Oczekiwane: kliknięcia (z włączonym „Dźwięk przy dotknięciu”), blokada/odblokowanie (włączony
+„Dźwięk blokady ekranu”), zrzut ekranu i zdjęcie w Aperture, start/stop nagrywania grają dźwięki
+BlackBerry; listy dzwonków/powiadomień/alarmów zawierają m.in. BBRY_*.
+```
+adb shell ls /product/media/audio/ui /product/media/audio/ringtones | head -40 > ~/logs/sounds.txt
+adb shell md5sum /product/media/audio/ui/Effect_Tick.ogg /product/media/audio/ui/camera_click.ogg >> ~/logs/sounds.txt
+adb shell settings get global lock_sound >> ~/logs/sounds.txt
+adb shell settings put system sound_effects_enabled 1
+```
+
+### 15. Tapety BlackBerry
+Oczekiwane: Ustawienia → Tapety i styl → Tapety systemowe pokazuje kategorie BlackBerry,
+Ekran blokady, Krajobrazy… z nazwami po polsku; tapetę da się ustawić na ekran główny i blokady.
+```
+adb shell pm list packages | grep blackberry.wallpapers > ~/logs/wallpapers.txt
+adb shell dumpsys package org.lineageos.blackberry.wallpapers | grep -E "codePath|flags" >> ~/logs/wallpapers.txt
 ```
 
 ### 12. Bateria
