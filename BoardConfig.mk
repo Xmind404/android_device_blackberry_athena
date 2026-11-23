@@ -33,6 +33,9 @@ AUDIO_FEATURE_ENABLED_SSR := true
 BOARD_SUPPORTS_SOUND_TRIGGER := true
 BOARD_USES_ALSA_AUDIO := true
 
+# Boot animation
+TARGET_BOOTANIMATION := vendor/blackberry/athena/media/bootanimation.zip
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := sdm660
 
