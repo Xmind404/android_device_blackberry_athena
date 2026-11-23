@@ -18,7 +18,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 6 | Kafelek QS „Dotyk klawiatury” (ikona SVG) + Ustawienia → System → „BlackBerry Keyboard” (pl/en), adaptacja wg jasności wyświetlacza (czujnik światła przy auto-jasności) | implemented – needs device test | device f364896, e73377b; base 040eebe9d |
 | 7 | Automatyczny wybór KCM (QWERTY/QWERTZ/AZERTY) | implemented – needs device test: init.keypad.sh czyta wariant fabryczny z partycji trace (trace_util r 8) → sysfs kl → nazwa urządzenia → IDC → KCM; ręczne nadpisanie opcjonalne (domyślnie Automatyczny) | sdm660-common init.keypad.sh, IDC/KCM |
 | 8 | Fingerprint na spacji | not started | vendor athena (Goodix AIDL) |
-| 9 | Latarka dual-tone (+ panel suwaków) | not started | – |
+| 9 | Latarka dual-tone (+ panel suwaków) | blocked – needs device data: prąd latarki na diodę podaje blob HAL aparatu (msm_flash LOW = też przedbłysk z AWB), więc najpierw pomiar na telefonie | kernel msm_flash (camera_v2-legacy), PM660L torch_0/torch_1, switch_0 |
 | 10 | PIN SIM (i PUK) z klawiatury | implemented – needs device test (cyfry z KCM bez Alt, przełącznik keyboard_pin_input) | base 059d23b16 |
 | 11 | PIN / hasło blokady z klawiatury (pierwszy klawisz na ekranie blokady otwiera bouncer i nie przepada) | implemented – needs device test; Compose bouncer (scene_container) nieobsługiwany, flaga wyłączona w cp2a | base 059d23b16 |
 | 12 | Bateria (power_profile, deep sleep, cpufreq, ChargingControl) | not started | `0693b591` |
@@ -127,6 +127,18 @@ cyfry wymagają Alt, a ekran blokady nie reaguje na litery.
 ```
 adb shell settings get secure keyboard_pin_input > ~/logs/pin.txt
 adb logcat -d -b main | grep -iE "KeyguardKeyEvent|Bouncer|KeyguardPin" >> ~/logs/pin.txt
+```
+
+### 9. Latarka – pomiar przed implementacją
+Włącz latarkę z kafelka QS i odczytaj prądy obu diod (białej/żółtej), potem to samo w aparacie
+przy zdjęciu z lampą (przedbłysk). To rozstrzygnie, czy wystarczy zmiana w torch HAL / kernelu
+tylko dla latarki, bez psucia balansu bieli lampy.
+```
+adb root
+adb shell 'for l in /sys/class/leds/led:torch_* /sys/class/leds/led:switch_* /sys/class/leds/led:flash_*; do echo "$l $(cat $l/brightness) max=$(cat $l/max_brightness)"; done' > ~/logs/torch.txt   # latarka WYŁĄCZONA
+# włącz latarkę z QS:
+adb shell 'for l in /sys/class/leds/led:torch_* /sys/class/leds/led:switch_*; do echo "$l $(cat $l/brightness)"; done' >> ~/logs/torch.txt
+adb shell dumpsys media.camera | grep -iA5 torch >> ~/logs/torch.txt
 ```
 
 ### 12. Bateria
