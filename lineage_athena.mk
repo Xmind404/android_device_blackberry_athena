@@ -4,6 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# BlackBerry stock sounds and wallpapers. Must come before the AOSP and
+# Lineage audio packages so its PRODUCT_COPY_FILES win for shared names.
+$(call inherit-product, vendor/blackberry/athena/media/media.mk)
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
