@@ -1,7 +1,7 @@
 # PORTING.md: LineageOS 24.0 dla BlackBerry KEY2 (athena)
 
 Stan portu z Lineage-BBKey2 (22.2, kernel 4.19) na LineageOS 24.0 (Android 17).
-Ostatnia aktualizacja: 2026-11-23 (Etap 0: inwentaryzacja).
+Ostatnia aktualizacja: 2026-11-23 (Etap 1 w toku).
 
 ## Metoda
 
@@ -118,50 +118,50 @@ gdy w Etapie 2c okaże się, że 24.0 nie naprawia `1048d83`.
 | [ad8b3997](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ad8b3997e1e5965e83724b21d391a2345594640a) | zapaca | InputMethodManager: Change input switcher shortcut to Shift + Enter | konflikt 2 | IME-switch, krok 2/5 | adapted (scalone) | – |
 | [f2b3168f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/f2b3168feb970c8a5ffd051fc58a6ab9db0be92a) | zapaca | Revert "InputMethodManager: Change input switcher shortcut to Shift + Enter" | konflikt 2 | IME-switch, krok 3/5 (revert) | adapted (scalone, netto bez zmian) | – |
 | [1464a496](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/1464a4964b48b010e3c252eae84d5f8656fd2b0a) | zapaca | IME Switcher: Enable choosing shortcut | konflikt 2 | IME-switch, krok 4/5 | adapted (scalone) | – |
-| [9ae9bf08](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/9ae9bf0866eb75446850293a96fc9d6e2a2d9890) | tim-ecoder | PowerManagerService: Settings.Secure brightness overrides for DeviceSettings | konflikt 2 | Podświetlenie 1/12 | adapted: seria PMS (klawiatura+przyciski) przepisana na PMS 24.0, klucze Settings.Secure zgodne z DeviceSettings, gałęzie luna usunięte | – |
+| [9ae9bf08](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/9ae9bf0866eb75446850293a96fc9d6e2a2d9890) | tim-ecoder | PowerManagerService: Settings.Secure brightness overrides for DeviceSettings | konflikt 2 | Podświetlenie 1/12 | adapted (seria PMS; klucze LineageSettings zamiast nadpisań Secure) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [ef6d6627](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ef6d6627ca1fb66c328bd2e887bc3350bac4ca2b) | zapaca | IME Switcher: Make Alt+Enter the default | konflikt 4 | IME-switch, krok 5/5 | adapted (scalone) | – |
-| [e77da8f5](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e77da8f59ecea58051a3594f1437af1ffa77036d) | tim-ecoder | adaptive keyboard and button backlight | konflikt 2 | Podświetlenie 2/12 | adapted (seria PMS) | – |
-| [afe701ca](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/afe701cab69a0279aaa623ab35ad7d2d4df8004f) | zapaca | PowerManagerService: Adaptive backlight mod for Luna's dimmer keyboard backlight | konflikt 2 | Podświetlenie 3/12, luna | dropped – luna only (część wspólna wchodzi w serię PMS) | – |
+| [e77da8f5](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e77da8f59ecea58051a3594f1437af1ffa77036d) | tim-ecoder | adaptive keyboard and button backlight | konflikt 2 | Podświetlenie 2/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [afe701ca](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/afe701cab69a0279aaa623ab35ad7d2d4df8004f) | zapaca | PowerManagerService: Adaptive backlight mod for Luna's dimmer keyboard backlight | konflikt 2 | Podświetlenie 3/12, luna | dropped – luna only | – |
 | [5fde4034](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/5fde403493dd3c26ddc1fcf78dd2a3de8fa5e01b) | zapaca | frameworks_base: Domain Verification Auto-Approve | czysto | Bezpieczeństwo: auto-zatwierdzanie App Links bez GMS | deferred – wymaga Twojej decyzji (osłabia weryfikację domen; z GApps zbędne) | – |
 | [0693b591](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0693b5910498372fe40a7b27e01c1ac7a74228e0) | zapaca | hwui: disable bitmap decode telemetry | konflikt 2 | Bateria/telemetria | adapted: StatsUtils.cpp zmieniony w 24.0; port w etapie bateria | – |
 | [72f2d1e7](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/72f2d1e7b83415e1a22e15c8eb81fde436f3a2cb) | zapaca | Bluetooth: car-bt-sco-a2dp-reroute patch | czysto | BT: SCO/A2DP w aucie | ported: przechodzi czysto; etap BT | – |
-| [ebdd4d6f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ebdd4d6f4c633af3763df31c4d518e23ac82abc6) | zapaca | PowerManagerService: Keyboard backlight floor increase and off in daylight | konflikt 2 | Podświetlenie 4/12 | adapted (seria PMS) | – |
-| [628fd7e7](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/628fd7e75556f5c975c70ed96613d07f455a6300) | zapaca | touchpad scroll handler | konflikt 2 | Touch-scroll 1/5 (zasada 7) | adapted: SyntheticTouchKeypadHandler 1:1 (stałe bez zmian), tylko dostosowanie do ViewRootImpl 24.0 | – |
-| [ddf8eec1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ddf8eec1b2ea772342de75ec2d1baa04b31cbc6c) | tim-ecoder | touchpad scroll: reduce sensitivity 10% | konflikt 2 | Touch-scroll 2/5 | adapted (seria touch-scroll) | – |
+| [ebdd4d6f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ebdd4d6f4c633af3763df31c4d518e23ac82abc6) | zapaca | PowerManagerService: Keyboard backlight floor increase and off in daylight | konflikt 2 | Podświetlenie 4/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [628fd7e7](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/628fd7e75556f5c975c70ed96613d07f455a6300) | zapaca | touchpad scroll handler | konflikt 2 | Touch-scroll 1/5 (zasada 7) | adapted (1:1 handler, stan końcowy serii) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
+| [ddf8eec1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ddf8eec1b2ea772342de75ec2d1baa04b31cbc6c) | tim-ecoder | touchpad scroll: reduce sensitivity 10% | konflikt 2 | Touch-scroll 2/5 | adapted (scalone w f7b9f29bb) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
 | [0f15676a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0f15676ab97d13c3b242d061443e8ab14f89ff75) | tim-ecoder | TouchKeypad QS tile | konflikt 4 | Kafelek QS w SystemUI | replaced: Etap 3 pkt 6 – TileService w aplikacji urządzenia; z tego commitu tylko ikony | – |
-| [dc4ea330](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/dc4ea33099938f7c614f519ff5d6dddc78768584) | tim-ecoder | touchpad scroll: reduce sensitivity and inertia 10% | konflikt 2 | Touch-scroll 3/5 | adapted (seria touch-scroll) | – |
+| [dc4ea330](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/dc4ea33099938f7c614f519ff5d6dddc78768584) | tim-ecoder | touchpad scroll: reduce sensitivity and inertia 10% | konflikt 2 | Touch-scroll 3/5 | adapted (scalone w f7b9f29bb) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
 | [c87cf219](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/c87cf2191e02443faaddeb82ec2fe40c3c62336f) | zapaca | keyguard: Enable keyboard PIN input on lockscreen | konflikt 4 | PIN z klawiatury 1/2 | adapted: KeyguardPinViewController 24.0 + przełącznik z pkt 6; mapowanie z KCM | – |
-| [8d7ee75f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8d7ee75f2ca17391932899ae6c6b0b67888178cc) | zapaca | PowerManagerService: Add toggling capability to adaptive keyboard/buttons brightness | konflikt 2 | Podświetlenie 5/12 | adapted (seria PMS) | – |
-| [0f1f282e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0f1f282e5a19f338713390cf09286fa35e3dc55f) | zapaca | PowerManagerService: Athena keyboard adaptive backlight floor decrease | konflikt 2 | Podświetlenie 6/12 | adapted (seria PMS) | – |
+| [8d7ee75f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8d7ee75f2ca17391932899ae6c6b0b67888178cc) | zapaca | PowerManagerService: Add toggling capability to adaptive keyboard/buttons brightness | konflikt 2 | Podświetlenie 5/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [0f1f282e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0f1f282e5a19f338713390cf09286fa35e3dc55f) | zapaca | PowerManagerService: Athena keyboard adaptive backlight floor decrease | konflikt 2 | Podświetlenie 6/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [72e50692](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/72e50692e6a285d51ad9475d40dd35c7616a2557) | zapaca | frameworks_base: Compatibility for both Athena and Luna | konflikt 3 | Athena/Luna compat | adapted: tylko athena (zasada 1) | – |
-| [55c8570e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/55c8570e8dd2175fb60bf113c8ec4170ec564640) | zapaca | PowerManagerService: Adaptive backlights: Raise brightness threshold for keyboard shutoff, lower button floor | konflikt 2 | Podświetlenie 7/12 | adapted (seria PMS) | – |
-| [8a223c98](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8a223c985d1161f9a893cacec337512583c930b6) | zapaca | power: Add independent keyboard backlight controls, fix light state bugs | konflikt 2 | Podświetlenie 8/12 | adapted (seria PMS; zawiera poprawki alarmu timeoutu) | – |
-| [76605e9e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/76605e9eb117a24dd10d2384200e9c32bc539226) | zapaca | base: add light-on-touch and independent keyboard scrolling capability | konflikt 12 | Touch-scroll 4/5 + podświetlenie 9/12 | adapted: wyłączanie scrolla, light-on-touch, most JNI do PMS | – |
-| [790cd2ba](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/790cd2bada637fa84cc810dc9bb49c991863cde1) | zapaca | ViewRootImpl: avoid focus changes from touch keypad input | czysto | Touch-scroll 5/5 | ported: czysto | – |
+| [55c8570e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/55c8570e8dd2175fb60bf113c8ec4170ec564640) | zapaca | PowerManagerService: Adaptive backlights: Raise brightness threshold for keyboard shutoff, lower button floor | konflikt 2 | Podświetlenie 7/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [8a223c98](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8a223c985d1161f9a893cacec337512583c930b6) | zapaca | power: Add independent keyboard backlight controls, fix light state bugs | konflikt 2 | Podświetlenie 8/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [76605e9e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/76605e9eb117a24dd10d2384200e9c32bc539226) | zapaca | base: add light-on-touch and independent keyboard scrolling capability | konflikt 12 | Touch-scroll 4/5 + podświetlenie 9/12 | adapted: ViewRootImpl → f7b9f29bb, PMS/JNI → e5ca7961c | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb), [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [790cd2ba](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/790cd2bada637fa84cc810dc9bb49c991863cde1) | zapaca | ViewRootImpl: avoid focus changes from touch keypad input | czysto | Touch-scroll 5/5 | ported (scalone w f7b9f29bb) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
 | [3a077a4a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3a077a4ac10f312945256d7157d2f7235e7cf2aa) | zapaca | base: Restore BlackBerry Hub message personalization access | konflikt 2 | BlackBerry Hub READ_MESSAGES | planned – niski priorytet (dla BlackBerry Keyboard; część systemowa) | – |
-| [d44840d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d44840d16bd33867e3d0b9c45cb9ecec1c434b67) | zapaca | NetworkPolicy: refresh rules for adopted-storage apps | czysto | NetworkPolicy, adopted storage | planned: czysto; sprawdzić, czy 24.0 nie naprawia | – |
+| [d44840d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d44840d16bd33867e3d0b9c45cb9ecec1c434b67) | zapaca | NetworkPolicy: refresh rules for adopted-storage apps | czysto | NetworkPolicy, adopted storage | ported (24.0 nie zawiera poprawki) | [dfdb0a3fd](https://github.com/Xmind404/android_frameworks_base/commit/dfdb0a3fd) |
 | [ba9b79d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ba9b79d1da0275157a5ba25c829dff5d105c78fb) | zapaca | keyguard: Fix intermittent keyboard PIN delete/enter, support QWERTZ/AZERTY PIN input | konflikt 6 | PIN z klawiatury 2/2 | adapted: zamiast QWERTZ/AZERTY na sztywno – mapowanie z aktywnego KCM (pkt 10) | – |
 | [2625ccfd](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/2625ccfdbdddd258127733bc210991855f36c7a3) | zapaca | SettingsProvider: support configurable display density defaults | konflikt 2 | Gęstość ekranu | planned: wymaga forka Settings (bb7ef10) | – |
-| [792be69c](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/792be69c111739652fd3fb1ec9c607f8b26e525a) | zapaca | PowerManager: Match stock keyboard and button backlight timeouts by default | konflikt 2 | Podświetlenie 10/12 | adapted (seria PMS) | – |
+| [792be69c](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/792be69c111739652fd3fb1ec9c607f8b26e525a) | zapaca | PowerManager: Match stock keyboard and button backlight timeouts by default | konflikt 2 | Podświetlenie 10/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [e43c3fd3](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e43c3fd3e2d8bd1bf6d6ba8f3a42822bec92bede) | zapaca | SystemUI: Allow Cast tile with Wi-Fi enabled but disconnected | konflikt 4 | Kafelek Cast | deferred – poza listą funkcji, niski priorytet | – |
-| [d6f4365a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d6f4365a8c8d131c97fa6034b24b2673a45476ea) | zapaca | PowerManager: Separate keyboard brightness scaling from daylight cutoff | konflikt 2 | Podświetlenie 11/12 | adapted (seria PMS) | – |
+| [d6f4365a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d6f4365a8c8d131c97fa6034b24b2673a45476ea) | zapaca | PowerManager: Separate keyboard brightness scaling from daylight cutoff | konflikt 2 | Podświetlenie 11/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [d4674016](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d4674016a6fea37ad4e4770aa4f241d6460d528d) | zapaca | SystemUI: Enable Wi-Fi from Cast and show visible startup feedback | konflikt 4 | Kafelek Cast + Wi-Fi (99 plików) | deferred – poza listą funkcji, niski priorytet | – |
-| [11e83906](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/11e83906fd2c86d8efe7de0e748f883260f793e9) | zapaca | PowerManager: avoid gating fixed-keyboard lighting on visibility | konflikt 2 | Podświetlenie 12/12 | adapted (seria PMS) | – |
-| [3049eda0](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3049eda0b6d45aa1c86d8f909ebdcc4be8391357) | zapaca | AnrTimer: prevent system_server from freezing itself | konflikt 2 | AnrTimer: system_server zamraża sam siebie | planned – wysoki priorytet (czarny ekran); sprawdzić kod 24.0 | – |
+| [11e83906](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/11e83906fd2c86d8efe7de0e748f883260f793e9) | zapaca | PowerManager: avoid gating fixed-keyboard lighting on visibility | konflikt 2 | Podświetlenie 12/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
+| [3049eda0](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3049eda0b6d45aa1c86d8f909ebdcc4be8391357) | zapaca | AnrTimer: prevent system_server from freezing itself | konflikt 2 | AnrTimer: system_server zamraża sam siebie | dropped – fixed upstream (AnrTimer 24.0 nie ma już logiki freezera) | – |
 | [9df04ab0](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/9df04ab019fa4a318a88cd421504efa6887baeb1) | zapaca | audio: keep local call sliders and volume keys on native levels | konflikt 2 | Głośność rozmowy | planned: + Settings 34b8a16 | – |
 | [dca385ec](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/dca385ec755460f3aa371e31a80f329378eec1c9) | zapaca | SystemUI: update navigation services when the on-screen bar changes | konflikt 2 | Navbar on-screen | planned: + LineageParts 860b45b + Launcher3 | – |
-| [0319a4ee](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0319a4eef14a60490132b2de683e4c3f00ad34f7) | zapaca | Input: Select family-compatible BlackBerry keyboard overlays | czysto | Wybór KCM BlackBerry | ported: czysto; podstawa pkt 7 | – |
-| [8013a1ed](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8013a1ed450f6b473227d83a6a8102971cfe41c9) | zapaca | InputMethodService: Work around legacy BlackBerry Alt overrides | czysto | BlackBerry Keyboard Alt | ported: czysto | – |
+| [0319a4ee](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0319a4eef14a60490132b2de683e4c3f00ad34f7) | zapaca | Input: Select family-compatible BlackBerry keyboard overlays | czysto | Wybór KCM BlackBerry | ported | [c1b93d021](https://github.com/Xmind404/android_frameworks_base/commit/c1b93d021) |
+| [8013a1ed](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8013a1ed450f6b473227d83a6a8102971cfe41c9) | zapaca | InputMethodService: Work around legacy BlackBerry Alt overrides | czysto | BlackBerry Keyboard Alt | ported | [851c570f1](https://github.com/Xmind404/android_frameworks_base/commit/851c570f1) |
 
 ### android_frameworks_native
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [6173eee](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/6173eeeacde9ba0e1ca4d43949f908d4c946dafa) | zapaca | EventHub.cpp: Skip overlay application for stmpe_keypad | czysto | Overlay KCM STMPE 1/3 | adapted: 3 commity → stan końcowy (fb827f8) | – |
-| [e626ef0](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/e626ef0eac9a6cd8faa42e5f1af513ee4c80dc2a) | zapaca | EventHub.cpp: Overlay application skip for any stmpe keypad | konflikt 2 | Overlay KCM STMPE 2/3 | adapted (scalone) | – |
-| [8eeea09](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/8eeea093092355f11a12337c1566a9d36344cdf5) | zapaca | TouchInputMapper: TOUCH_PAD implementation patch | konflikt 2 | TOUCH_PAD w TouchInputMapper | adapted: kluczowe dla touch-scroll | – |
-| [8f6bb31](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/8f6bb31a9c4b95644e93db774cd286e5d7477293) | zapaca | inputflinger: notify policy of touchpad activity | konflikt 2 | Aktywność touchpada → policy | adapted: razem z 76605e9e | – |
-| [fb827f8](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/fb827f87d5d087a5022e3b72c0aa8a9ec1ed7dbf) | zapaca | EventHub: Allow matching BlackBerry overlays on STMPE keypads | konflikt 2 | Overlay KCM STMPE 3/3 | adapted (scalone) | – |
+| [6173eee](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/6173eeeacde9ba0e1ca4d43949f908d4c946dafa) | zapaca | EventHub.cpp: Skip overlay application for stmpe_keypad | czysto | Overlay KCM STMPE 1/3 | adapted (scalone do stanu końcowego) | [214e125](https://github.com/Xmind404/android_frameworks_native/commit/214e125) |
+| [e626ef0](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/e626ef0eac9a6cd8faa42e5f1af513ee4c80dc2a) | zapaca | EventHub.cpp: Overlay application skip for any stmpe keypad | konflikt 2 | Overlay KCM STMPE 2/3 | adapted (scalone) | [214e125](https://github.com/Xmind404/android_frameworks_native/commit/214e125) |
+| [8eeea09](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/8eeea093092355f11a12337c1566a9d36344cdf5) | zapaca | TouchInputMapper: TOUCH_PAD implementation patch | konflikt 2 | TOUCH_PAD w TouchInputMapper | adapted (bez hasAssociatedDisplay – zbędne w 24.0) | [5106382](https://github.com/Xmind404/android_frameworks_native/commit/5106382) |
+| [8f6bb31](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/8f6bb31a9c4b95644e93db774cd286e5d7477293) | zapaca | inputflinger: notify policy of touchpad activity | konflikt 2 | Aktywność touchpada → policy | adapted | [a475b9f](https://github.com/Xmind404/android_frameworks_native/commit/a475b9f) |
+| [fb827f8](https://github.com/Lineage-BBKey2/android_frameworks_native/commit/fb827f87d5d087a5022e3b72c0aa8a9ec1ed7dbf) | zapaca | EventHub: Allow matching BlackBerry overlays on STMPE keypads | konflikt 2 | Overlay KCM STMPE 3/3 | adapted (scalone) | [214e125](https://github.com/Xmind404/android_frameworks_native/commit/214e125) |
 
 ### android_packages_modules_Bluetooth
 
@@ -286,30 +286,30 @@ gdy w Etapie 2c okaże się, że 24.0 nie naprawia `1048d83`.
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [99ad210](https://github.com/Lineage-BBKey2/android_device_blackberry_athena/commit/99ad210c17fecf85409b3bf99a71fb420786b53a) | zapaca | athena: preserve the HAL1 close fix during blob extraction | – | device athena | planned: Etap 1 | – |
+| [99ad210](https://github.com/Lineage-BBKey2/android_device_blackberry_athena/commit/99ad210c17fecf85409b3bf99a71fb420786b53a) | zapaca | athena: preserve the HAL1 close fix during blob extraction | – | device athena | ported | [ef73bdb](https://github.com/Xmind404/android_device_blackberry_athena/commit/ef73bdb) |
 
 ### android_vendor_blackberry_athena (brak w imporcie)
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [2903bf1](https://github.com/Lineage-BBKey2/android_vendor_blackberry_athena/commit/2903bf1b8cff1215ff16b8be3cffc15799bce0d4) | zapaca | athena: finish queued HAL1 work before worker shutdown | – | vendor athena blob | planned: Etap 1 (razem z 99ad210) | – |
+| [2903bf1](https://github.com/Lineage-BBKey2/android_vendor_blackberry_athena/commit/2903bf1b8cff1215ff16b8be3cffc15799bce0d4) | zapaca | athena: finish queued HAL1 work before worker shutdown | – | vendor athena blob | ported (blob identyczny z Lineage-BBKey2) | [e0e1153](https://github.com/Xmind404/android_vendor_blackberry_athena/commit/e0e1153) |
 
 ### android_vendor_blackberry_sdm660-common (import ma pliki, ale stare Android.bp/.mk)
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [f943718](https://github.com/Lineage-BBKey2/android_vendor_blackberry_sdm660-common/commit/f943718aa6076d81a5e459db57db06f1e7370a52) | zapaca | sdm660-common: regenerate vendor build files | – | vendor common | planned: Etap 1 | – |
-| [db18583](https://github.com/Lineage-BBKey2/android_vendor_blackberry_sdm660-common/commit/db18583e058a138dc8fa52ba4c3e146a25fe98e4) | zapaca | sdm660-common: package QTI A2DP clients and Bluetooth firmware | – | vendor common BT fw + QTI A2DP | planned: Etap 1 (firmware BT), A2DP w etapie BT | – |
+| [f943718](https://github.com/Lineage-BBKey2/android_vendor_blackberry_sdm660-common/commit/f943718aa6076d81a5e459db57db06f1e7370a52) | zapaca | sdm660-common: regenerate vendor build files | – | vendor common | ported | [a69c3d3](https://github.com/Xmind404/android_vendor_blackberry_sdm660-common/commit/a69c3d3) |
+| [db18583](https://github.com/Lineage-BBKey2/android_vendor_blackberry_sdm660-common/commit/db18583e058a138dc8fa52ba4c3e146a25fe98e4) | zapaca | sdm660-common: package QTI A2DP clients and Bluetooth firmware | – | vendor common BT fw + QTI A2DP | already in tree (import zawierał już bloby i reguły) | – |
 
 ### android_kernel_blackberry_sdm660-4p19 (lineage-22.2, nowsze niż nasz kernel)
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [656bd3853](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/656bd38536a291a9c32788af9f2c47b2a412c72a) | zapaca | input: athena/luna: guard capacitive navigation during top-row typing | – | kernel: nawigacja vs pisanie | planned: Etap 1 | – |
-| [92a1143bc](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/92a1143bc535152e9f35e3fe02270b9455f37467) | zapaca | input: blackberry: guard Athena navigation keys during keyboard swipes | – | kernel: nawigacja vs swipe | planned: Etap 1 | – |
+| [656bd3853](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/656bd38536a291a9c32788af9f2c47b2a412c72a) | zapaca | input: athena/luna: guard capacitive navigation during top-row typing | – | kernel: nawigacja vs pisanie | adapted (bez hunka luna-perf_defconfig) | [60c9577ec6bf](https://github.com/Xmind404/android_kernel_blackberry_sdm660-4p19/commit/60c9577ec6bf) |
+| [92a1143bc](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/92a1143bc535152e9f35e3fe02270b9455f37467) | zapaca | input: blackberry: guard Athena navigation keys during keyboard swipes | – | kernel: nawigacja vs swipe | ported | [fcb240bff1d1](https://github.com/Xmind404/android_kernel_blackberry_sdm660-4p19/commit/fcb240bff1d1) |
 | [36b013cfc](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/36b013cfc7c5a8962c06d9fa3da2565a65f2018e) | zapaca | arm64: dts: luna: select the retail BYD battery profile | – | kernel: luna dts | dropped – luna only | – |
 | [60391bf1c](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/60391bf1cd11d2270e0f7f5d234e2d3533418bdd) | zapaca | arm64: dts: qcom: luna: smooth the notification LED fade | – | kernel: luna dts | dropped – luna only | – |
-| [50bcc42c7](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/50bcc42c746b2842884da43badbe5740cf039662) | zapaca | media: msm: cpp: let devres release the reset control | – | kernel: cpp reset | planned: Etap 1 | – |
+| [50bcc42c7](https://github.com/Lineage-BBKey2/android_kernel_blackberry_sdm660-4p19/commit/50bcc42c746b2842884da43badbe5740cf039662) | zapaca | media: msm: cpp: let devres release the reset control | – | kernel: cpp reset | ported | [f63988bee791](https://github.com/Xmind404/android_kernel_blackberry_sdm660-4p19/commit/f63988bee791) |
 
 ## Twoje własne zmiany z forków 22.2 (zasada 8, NIE portowane bez zgody)
 
@@ -322,7 +322,7 @@ starszego stanu Lineage-BBKey2. Faktycznie własne różnice:
 | android_frameworks_base `c89fb21`, `8c8ad74`, `b286c6f` | PIN z klawiatury (QWERTY/QWERTZ/AZERTY): stan końcowy identyczny z Lineage-BBKey2 `ba9b79d1` | nic do portowania (pokrywa się z deltą) |
 | android_frameworks_base `c7ffb02` | skala jasności przycisków 0.1–1.0 (Lineage-BBKey2 `55c8570e` ma później 0.01–1.0) | czeka na zgodę; domyślnie wartość Lineage-BBKey2 |
 | android_frameworks_base `477cfcc` | pliki `*:Zone.Identifier` (artefakty Windows) | nie portować (śmieci) |
-| android_device_blackberry_athena `6429925` | URI OTA updatera dla dystrybucji Xmind404 | czeka na zgodę |
+| android_device_blackberry_athena `6429925` | URI OTA updatera dla dystrybucji Xmind404 | już w 24.0 (Twój commit `b84ee38`) |
 | android_hardware_qcom_audio `lineage-22.2-caf-msm8998` | LineageOS msm8998 + łatka routingu Lineage-BBKey2 `5d409a7` | zastępowane przez D1 |
 | android_kernel_blackberry_sdm660 (4.4) | tylko INIT + README | nic do portowania |
 
@@ -347,3 +347,17 @@ starszego stanu Lineage-BBKey2. Faktycznie własne różnice:
 3. frameworks/native: TOUCH_PAD, overlay KCM, aktywność touchpada.
 4. frameworks/base: touch-scroll (zasada 7), seria PMS podświetlenia, PIN z klawiatury, KCM BlackBerry, IME switcher, AnrTimer, reszta wg tabeli.
 5. Bluetooth: `01d8bdc`, `cc2ba40` (+ `72f2d1e7` w base), offload QTI po D2.
+
+## Zmiany Etapu 1 poza deltą Lineage-BBKey2 (dostosowanie do 24.0)
+
+| Repo | Commit | Opis |
+|---|---|---|
+| device sdm660-common / athena | [95d8fa4](https://github.com/Xmind404/android_device_blackberry_sdm660-common/commit/95d8fa4), [098e592](https://github.com/Xmind404/android_device_blackberry_athena/commit/098e592) | namespace `hardware/qcom-caf/msm8998` (usunięty w 24.0) → `hardware/qcom-caf/sdm660` |
+| vendor sdm660-common / athena | [af14b62](https://github.com/Xmind404/android_vendor_blackberry_sdm660-common/commit/af14b62), [c6f0a91](https://github.com/Xmind404/android_vendor_blackberry_athena/commit/c6f0a91) | regeneracja makefile'i extract-utils 24.0 |
+| hardware/blackberry | [5f7c623](https://github.com/Xmind404/android_hardware_blackberry/commit/5f7c623) | HAL touch (glove, key disabler) HIDL `vendor.lineage.touch@1.0` → AIDL V1 |
+| device sdm660-common | [70daf51](https://github.com/Xmind404/android_device_blackberry_sdm660-common/commit/70daf51) | pakowanie i file_contexts nowego HAL-a touch |
+| device athena | f503ef1 | DeviceSettings: klucze LineageSettings dla jasności/timeoutu przycisków i jasności klawiatury |
+| frameworks/base | e5ca7961c (JNI) | stała throttlingu touchpada (24.0 nie ma `MIN_TIME_BETWEEN_USERACTIVITIES` w JNI power) |
+| device sdm660-common | 8d859f1 | import `vendor/qcom/opensource/commonsys/display` dla `libqdMetaData.system` (blob IMS) |
+| vendor sdm660-common | efa4f81 | regeneracja po dodaniu namespace commonsys/display |
+| device sdm660-common | ebe2f24 | `livedisplay_sdm enable_dm` przez `soong_config_set_bool` (24.0 wymaga typu bool) |

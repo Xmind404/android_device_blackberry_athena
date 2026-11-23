@@ -12,9 +12,9 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 2 | GPS | not started | – |
 | 3 | Ekran (panel, jasność, obrót, CABL) | not started | display: import = czubek Lineage-BBKey2 |
 | 4 | Bluetooth (A2DP/HFP/LE, poprawki Lineage-BBKey2) | not started | `01d8bdc`, `cc2ba40`, `6560862`, `72f2d1e7`, `9aa4ece`, `db18583` |
-| 5a | Klawisze fizyczne (Alt, Shift, Sym, Convenience) | not started | `0319a4ee`, `8013a1ed`, native EventHub, IME switcher |
-| 5b | Touch na klawiaturze: scroll | not started | `628fd7e7`, `ddf8eec1`, `dc4ea330`, `76605e9e`, `790cd2ba`, native `8eeea09` |
-| 5c | Podświetlenie klawiatury i przycisków | not started | seria PMS (12 commitów), kernel `656bd38`, `92a1143` |
+| 5a | Klawisze fizyczne (Alt, Shift, Sym, Convenience) | in progress (overlay KCM, Alt w BB Keyboard: implemented – needs device test) | `0319a4ee`, `8013a1ed`, native EventHub, IME switcher |
+| 5b | Touch na klawiaturze: scroll | implemented – needs device test | `628fd7e7`, `ddf8eec1`, `dc4ea330`, `76605e9e`, `790cd2ba`, native `8eeea09` |
+| 5c | Podświetlenie klawiatury i przycisków | implemented – needs device test (adaptacja wg czujnika światła: Etap 3 pkt 6) | seria PMS (12 commitów), kernel `656bd38`, `92a1143` |
 | 6 | Kafelek QS „Dotyk klawiatury” + Ustawienia → System → „BlackBerry Keyboard” | not started | DeviceSettings (istnieje), `0f15676a` (replaced) |
 | 7 | Automatyczny wybór KCM (QWERTY/QWERTZ/AZERTY) | not started | `0319a4ee`, native `fb827f8` |
 | 8 | Fingerprint na spacji | not started | vendor athena (Goodix AIDL) |
@@ -29,19 +29,36 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 ### E2: instalacja z GApps i bez
 Procedura zostanie opisana po Etapie 2, zgodnie z raportem.
 
-### 5b. Touch-scroll
+### 5a. Klawisze / KCM
+Oczekiwane: Alt+klawisz daje znak z warstwy Alt aktywnego KCM (QWERTZ), Sym działa w athenaKB,
+a w logcat przy zmianie układu widać `BlackBerry KCM: native=... action=apply|native`.
 ```
-adb shell getevent -lp | grep -A8 -i stmpe            # urządzenie touchpada klawiatury
-adb shell dumpsys input | grep -B2 -A20 -i "touch.deviceType"
-adb logcat -c; # przewijanie w Ustawieniach, Chrome, PDF
-adb logcat -d > ~/logs/touchscroll.txt
+adb logcat -c; # zmień układ w Ustawienia → System → Klawiatura fizyczna
+adb logcat -d | grep -i "BlackBerry KCM" > ~/logs/kcm.txt
+adb shell dumpsys input | grep -A30 -i stmpe >> ~/logs/kcm.txt
+```
+
+### 5b. Touch-scroll
+Oczekiwane: pionowy i poziomy scroll w Ustawieniach, Chrome, PDF; brak podświetlania
+pierwszej ikony/elementu po dotknięciu klawiatury; fling po szybkim ruchu; brak scrolla
+przy `persist.vendor.touchkeypad.scrolling_disabled=true`.
+```
+adb shell dumpsys input | grep -B5 -A25 -i "touch_keypad\|touchPad" > ~/logs/touchscroll.txt
+adb shell setprop persist.vendor.touchkeypad.scrolling_disabled true   # scroll ma zniknąć
+adb shell setprop persist.vendor.touchkeypad.scrolling_disabled false  # scroll wraca
+adb logcat -d >> ~/logs/touchscroll.txt
 ```
 
 ### 5c. Podświetlenie
+Oczekiwane: klawiatura i przyciski gasną po 10 s bez aktywności, zapalają się po
+naciśnięciu klawisza (i po dotyku klawiatury, gdy włączone „tylko przy naciśnięciu” +
+„przy dotyku”), skalują się z suwakiem jasności ekranu, klawiatura gaśnie przy jasności
+ekranu ≥ 100/255, obie gasną natychmiast po wyłączeniu ekranu (także w AOD/doze).
 ```
-adb shell ls /sys/class/leds/
-adb shell dumpsys power | grep -i -E "keyboard|button"
-adb shell dumpsys power | grep -i wake_lock         # podświetlenie nie może trzymać wakelocków
+adb shell ls /sys/class/leds/ > ~/logs/backlight.txt
+adb shell dumpsys power | grep -E "mKeyboard|mButton|mScreenBrightnessSetting" >> ~/logs/backlight.txt
+adb shell settings put secure keyboard_backlight_timeout 3000   # zmiana działa od razu
+adb shell dumpsys power | grep -i wake_lock >> ~/logs/backlight.txt   # brak wakelocków od podświetlenia
 ```
 
 ### 12. Bateria
