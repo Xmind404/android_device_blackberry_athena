@@ -25,6 +25,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
 | 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, start/stop wideo) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor athena 74d38bf, device 99910ba |
 | 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor athena c81a529 |
+| 16 | Animacja rozruchu BlackBerry zamiast LineageOS | implemented – needs device test | vendor athena f6e4bb0, device e8617d5 |
 
 ## Plan testów (komendy uzupełniam w miarę implementacji)
 
@@ -87,6 +88,14 @@ Ekran blokady, Krajobrazy… z nazwami po polsku; tapetę da się ustawić na ek
 ```
 adb shell pm list packages | grep blackberry.wallpapers > ~/logs/wallpapers.txt
 adb shell dumpsys package org.lineageos.blackberry.wallpapers | grep -E "codePath|flags" >> ~/logs/wallpapers.txt
+```
+
+### 16. Animacja rozruchu
+Oczekiwane: przy starcie animacja BlackBerry wyśrodkowana, bez obcięcia po bokach, na czarnym tle;
+w motywie ciemnym ta sama.
+```
+adb shell ls -l /product/media/bootanimation.zip /product/media/bootanimation-dark.zip > ~/logs/bootanim.txt
+adb shell sha1sum /product/media/bootanimation.zip >> ~/logs/bootanim.txt   # 9802fee4b5e3f997f1872e51af3f709795d4aadf
 ```
 
 ### 12. Bateria
