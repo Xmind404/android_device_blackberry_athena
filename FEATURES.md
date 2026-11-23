@@ -21,7 +21,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 9 | Latarka dual-tone (+ panel suwaków) | blocked – needs device data: prąd latarki na diodę podaje blob HAL aparatu (msm_flash LOW = też przedbłysk z AWB), więc najpierw pomiar na telefonie | kernel msm_flash (camera_v2-legacy), PM660L torch_0/torch_1, switch_0 |
 | 10 | PIN SIM (i PUK) z klawiatury | implemented – needs device test (cyfry z KCM bez Alt, przełącznik keyboard_pin_input) | base 059d23b16 |
 | 11 | PIN / hasło blokady z klawiatury (pierwszy klawisz na ekranie blokady otwiera bouncer i nie przepada) | implemented – needs device test; Compose bouncer (scene_container) nieobsługiwany, flaga wyłączona w cp2a | base 059d23b16 |
-| 12 | Bateria (power_profile, deep sleep, cpufreq, ChargingControl) | not started | `0693b591` |
+| 12 | Bateria: power_profile 3500 mAh (OK), deep sleep włączany po starcie (post_boot, OK), schedutil 4.19 (OK), limit ładowania (Lineage ChargingControl), wyłączona telemetria hwui; podświetlenie gaśnie poza AWAKE | implemented – needs device measurement | sdm660-common d744aa2, base e44c4aebe, e5ca7961c |
 | 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
 | 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, ostrość, start/stop wideo, klawisze IME, dok, Trusted, ładowanie bezprzewodowe) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
 | 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor/blackberry/media 0b007b8 |
@@ -142,7 +142,12 @@ adb shell dumpsys media.camera | grep -iA5 torch >> ~/logs/torch.txt
 ```
 
 ### 12. Bateria
+Oczekiwane: Ustawienia → Bateria → Kontrola ładowania dostępna i zatrzymuje ładowanie na limicie;
+suspend_stats rośnie przy wyłączonym ekranie; brak wakelocków od podświetlenia.
 ```
+adb shell cat /sys/module/lpm_levels/parameters/sleep_disabled          # oczekiwane: N / 0
+adb shell cat /sys/class/power_supply/battery/charging_enabled
+adb shell dumpsys lineagehealth 2>/dev/null | head -20
 adb shell dumpsys batterystats --reset
 # ~8 h przy wyłączonym ekranie
 adb shell cat /sys/power/suspend_stats/success /sys/power/suspend_stats/fail
