@@ -5,7 +5,10 @@
 
 package com.blackberry.settings;
 
+import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemProperties;
 import android.provider.Settings;
 
@@ -39,9 +42,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             implements Preference.OnPreferenceChangeListener {
 
         private static final String KEY_KEYBOARD_TOUCHPAD_ENABLED =
-                "keyboard_touchpad_enabled";
-        private static final String PROP_KEYBOARD_TOUCHPAD_POWER_DISABLED =
-                "persist.vendor.touchkeypad.disabled";
+                KeyboardTouchpad.SETTING_ENABLED;
+        private static final String KEY_KEYBOARD_BACKLIGHT_ENABLED =
+                "keyboard_backlight_enabled";
         private static final String KEY_PIN_INPUT =
                 "keyboard_pin_input";
         private static final String KEY_SHOW_IME =
@@ -79,17 +82,34 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
         private static final String KEY_TOUCHSCREEN_CATEGORY =
                 "touchscreen_category";
 
+        // Keeps the touchpad switch in sync when the Quick Settings tile toggles it.
+        private final ContentObserver mTouchpadObserver = new ContentObserver(
+                new Handler(Looper.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                updateTouchpadPreference();
+            }
+        };
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.device_settings, rootKey);
 
-            // Keyboard touchpad power
+            // Keyboard touchpad power (shared with the Quick Settings tile)
             SwitchPreference touchpadEnabled =
                     findPreference(KEY_KEYBOARD_TOUCHPAD_ENABLED);
             if (touchpadEnabled != null) {
-                touchpadEnabled.setChecked(!SystemProperties.getBoolean(
-                        PROP_KEYBOARD_TOUCHPAD_POWER_DISABLED, false));
                 touchpadEnabled.setOnPreferenceChangeListener(this);
+            }
+            updateTouchpadPreference();
+
+            // Keyboard backlight master switch
+            SwitchPreference backlightEnabled = findPreference(KEY_KEYBOARD_BACKLIGHT_ENABLED);
+            if (backlightEnabled != null) {
+                backlightEnabled.setChecked(Settings.Secure.getInt(
+                        getContext().getContentResolver(),
+                        KEY_KEYBOARD_BACKLIGHT_ENABLED, 1) == 1);
+                backlightEnabled.setOnPreferenceChangeListener(this);
             }
 
             // Lockscreen PIN with keyboard
@@ -276,10 +296,27 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             onTouch.setChecked(!onlyWhenPressed || savedOnTouch);
         }
 
+        private void updateTouchpadPreference() {
+            SwitchPreference touchpadEnabled =
+                    findPreference(KEY_KEYBOARD_TOUCHPAD_ENABLED);
+            if (touchpadEnabled != null) {
+                touchpadEnabled.setChecked(KeyboardTouchpad.isEnabled());
+            }
+        }
+
         @Override
         public void onResume() {
             super.onResume();
             KeyboardHardwareLayout.bind(this);
+            updateTouchpadPreference();
+            getContext().getContentResolver().registerContentObserver(
+                    KeyboardTouchpad.getObservedUri(), false, mTouchpadObserver);
+        }
+
+        @Override
+        public void onPause() {
+            getContext().getContentResolver().unregisterContentObserver(mTouchpadObserver);
+            super.onPause();
         }
 
         @Override
@@ -288,22 +325,14 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
 
             switch (key) {
                 case KEY_KEYBOARD_TOUCHPAD_ENABLED: {
-                    boolean enabled = (boolean) newValue;
-
-                    // The persistent vendor property remains the source of truth
-                    // used by init to power the capacitive keyboard on or off.
-                    SystemProperties.set(
-                            PROP_KEYBOARD_TOUCHPAD_POWER_DISABLED,
-                            enabled ? "0" : "1");
-
-                    // Publish an observable framework setting after changing the
-                    // property. SystemUI observes this URI and then rereads the
-                    // property to update the QS tile.
-                    Settings.Global.putInt(
-                            getContext().getContentResolver(),
-                            KEY_KEYBOARD_TOUCHPAD_ENABLED,
-                            enabled ? 1 : 0);
+                    KeyboardTouchpad.setEnabled(getContext(), (boolean) newValue);
                     return true;
+                }
+                case KEY_KEYBOARD_BACKLIGHT_ENABLED: {
+                    return Settings.Secure.putInt(
+                            getContext().getContentResolver(),
+                            KEY_KEYBOARD_BACKLIGHT_ENABLED,
+                            (boolean) newValue ? 1 : 0);
                 }
                 case KEY_PIN_INPUT: {
                     boolean checked = (boolean) newValue;

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="device_settings_app_label">Ustawienia BlackBerry</string>
+    <string name="device_settings_title">BlackBerry Keyboard</string>
+    <string name="device_settings_summary">Dotyk klawiatury, podświetlenie, wpisywanie PIN-u i skróty</string>
+
+    <string name="keyboard_category">Klawiatura</string>
+
+    <string name="keyboard_touchpad_enabled_title">Dotyk klawiatury</string>
+    <string name="keyboard_touchpad_enabled_summary">Zasilanie dotykowej powierzchni klawiatury do przewijania, gestów i włączania podświetlenia</string>
+
+    <string name="keyboard_pin_input_title">Wpisywanie PIN-u z klawiatury</string>
+    <string name="keyboard_pin_input_summary">Wpisuj PIN karty SIM oraz PIN lub hasło blokady ekranu na klawiaturze fizycznej</string>
+
+    <string name="show_ime_title">Zezwalaj na klawiaturę ekranową</string>
+    <string name="show_ime_summary">Pokazuj klawiaturę ekranową także przy podłączonej klawiaturze fizycznej</string>
+
+    <string name="ime_switcher_shortcut_title">Skrót zmiany klawiatury</string>
+    <string name="ime_switcher_shortcut_summary">Kombinacja klawiszy otwierająca wybór metody wprowadzania</string>
+
+    <string name="ime_shortcut_alt_enter">Alt + Enter</string>
+    <string name="ime_shortcut_shift_space">Shift + Spacja</string>
+    <string name="ime_shortcut_ctrl">Klawisz Ctrl lub Fn</string>
+    <string name="ime_shortcut_sym">Klawisz Sym</string>
+
+    <string name="keyboard_backlight_category">Podświetlenie klawiatury</string>
+    <string name="keyboard_backlight_enabled_title">Podświetlenie klawiatury</string>
+    <string name="keyboard_backlight_enabled_summary">Podświetlaj klawiaturę przy włączonym ekranie</string>
+    <string name="keyboard_adaptive_brightness_title">Adaptacyjna jasność klawiatury</string>
+    <string name="keyboard_adaptive_brightness_summary">Dopasowuj podświetlenie klawiatury do światła otoczenia, zgodnie z jasnością ekranu</string>
+    <string name="keyboard_high_brightness_off_title">Wyłączaj przy jasnym ekranie</string>
+    <string name="keyboard_high_brightness_off_summary">Wyłączaj podświetlenie klawiatury przy dużej jasności ekranu, by oszczędzać energię w świetle dziennym</string>
+    <string name="keyboard_brightness_title">Jasność klawiatury</string>
+    <string name="keyboard_brightness_summary">Maksymalny poziom podświetlenia klawiatury. Przy adaptacyjnej jasności podświetlenie dopasowuje się poniżej tego poziomu.</string>
+    <string name="keyboard_backlight_timeout_title">Czas podświetlenia klawiatury</string>
+    <string name="keyboard_backlight_timeout_summary">Czas, po którym podświetlenie klawiatury gaśnie</string>
+    <string name="keyboard_only_when_pressed_title">Tylko po naciśnięciu</string>
+    <string name="keyboard_only_when_pressed_summary">Podświetlenie klawiatury włącza się tylko po naciśnięciu klawisza</string>
+    <string name="keyboard_on_touch_title">Po dotknięciu klawiatury</string>
+    <string name="keyboard_on_touch_summary">Podświetlenie klawiatury włącza się także po dotknięciu klawiatury (wymaga włączonego dotyku klawiatury)</string>
+
+    <string name="button_backlight_category">Podświetlenie przycisków</string>
+    <string name="button_adaptive_brightness_title">Adaptacyjna jasność przycisków</string>
+    <string name="button_adaptive_brightness_summary">Dopasowuj podświetlenie przycisków nawigacji do światła otoczenia, zgodnie z jasnością ekranu</string>
+    <string name="button_brightness_title">Jasność przycisków</string>
+    <string name="button_brightness_summary">Poziom podświetlenia przycisków nawigacji</string>
+    <string name="button_backlight_timeout_title">Czas podświetlenia przycisków</string>
+    <string name="button_backlight_timeout_summary">Czas, po którym podświetlenie przycisków gaśnie</string>
+    <string name="button_only_when_pressed_title">Tylko po naciśnięciu</string>
+    <string name="button_only_when_pressed_summary">Podświetlenie przycisków włącza się tylko po ich naciśnięciu</string>
+    <string name="button_on_keyboard_touch_title">Po dotknięciu klawiatury</string>
+    <string name="button_on_keyboard_touch_summary">Podświetlenie przycisków włącza się także po dotknięciu klawiatury (wymaga włączonego dotyku klawiatury)</string>
+
+    <string name="timeout_disabled">Wyłączone</string>
+    <string name="timeout_1s">1 sekunda</string>
+    <string name="timeout_2s">2 sekundy</string>
+    <string name="timeout_5s">5 sekund</string>
+    <string name="timeout_10s">10 sekund</string>
+    <string name="timeout_30s">30 sekund</string>
+    <string name="timeout_60s">1 minuta</string>
+
+    <string name="touchscreen_category">Ekran dotykowy</string>
+    <string name="host_dt2w_title">Tryb zgodności dwukrotnego dotknięcia</string>
+    <string name="host_dt2w_summary">Alternatywne wykrywanie dwukrotnego dotknięcia w celu wybudzenia. Może poprawić działanie na ekranach FocalTech, ale zwiększa zużycie energii w czuwaniu.</string>
+
+    <string name="apps_category">Aplikacje</string>
+
+    <string name="tile_keyboard_touchpad">Dotyk klawiatury</string>
+    <string name="tile_state_on">Włączony</string>
+    <string name="tile_state_off">Wyłączony</string>
+    <string name="legacy_blackberry_apps_title">Aplikacje BlackBerry</string>
+    <string name="legacy_blackberry_apps_summary">Zainstaluj oryginalne aplikacje BlackBerry KEY2 z Google Play lub Archive.org</string>
+    <string name="legacy_blackberry_apps_instructions">Dotknij aplikacji, aby zainstalować ją z Google Play lub Archive.org.</string>
+    <string name="legacy_blackberry_apps_google_play_note">Aplikacja w Google Play jest dostępna tylko dla konta Google, które korzystało z niej przed jej wycofaniem.</string>
+    <string name="blackberry_keyboard_title">BlackBerry Keyboard</string>
+    <string name="blackberry_launcher_title">BlackBerry Launcher</string>
+    <string name="app_installed">Zainstalowana</string>
+    <string name="app_not_installed">Niezainstalowana</string>
+    <string name="legacy_app_google_play_title">Zobacz w Google Play</string>
+    <string name="legacy_app_mirror_title">Zainstaluj APK z Archive.org</string>
+    <string name="legacy_app_no_link_handler">Nie można otworzyć Google Play. Zainstaluj lub włącz Sklep Google Play albo użyj pobierania APK.</string>
+</resources>

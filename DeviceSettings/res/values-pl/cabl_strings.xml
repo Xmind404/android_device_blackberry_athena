@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="cabl_title">Adaptacyjne podświetlenie (CABL)</string>
+    <string name="cabl_summary">Dopasowuj podświetlenie do wyświetlanej treści</string>
+    <string name="cabl_strength">Siła</string>
+    <string name="cabl_off">Wyłączone</string>
+    <string name="cabl_strong">Silne — minimum 50% podświetlenia</string>
+    <string name="cabl_balanced">Zrównoważone — minimum 65% podświetlenia</string>
+    <string name="cabl_mild">Łagodne — minimum 75% podświetlenia</string>
+    <string name="cabl_footer">Zmniejsza zużycie energii przez ekran, przyciemniając podświetlenie i kompensując obraz. Silniejsza regulacja może zmienić wygląd ciemnych treści. Działa razem z adaptacyjną jasnością.</string>
+    <string name="cabl_strong_short">Silne</string>
+    <string name="cabl_balanced_short">Zrównoważone</string>
+    <string name="cabl_mild_short">Łagodne</string>
+    <string name="cabl_status_title">Stan</string>
+    <string name="cabl_last_confirmed">Ostatnio potwierdzone: %1$s</string>
+    <string name="cabl_applying">Stosowanie zapisanego wyboru…</string>
+    <string name="cabl_not_confirmed">Zapisany wybór nie został potwierdzony. Możesz spróbować zastosować go ponownie.</string>
+    <string name="cabl_retry">Zastosuj ponownie</string>
+    <string name="cabl_save_failed">Nie udało się zapisać ustawienia podświetlenia</string>
+    <string name="cabl_unknown_selection">Wybierz prawidłową siłę</string>
+    <string name="cabl_primary_user_only">Tylko właściciel urządzenia może zmienić to ustawienie</string>
+    <string name="cabl_power_footer">Oszczędność energii ekranu może zostać zniwelowana przez większe obciążenie procesora.</string>
+</resources>

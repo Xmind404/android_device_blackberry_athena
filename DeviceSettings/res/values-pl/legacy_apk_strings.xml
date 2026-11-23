@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="legacy_apk_explanation">Pobieranie może korzystać z danych komórkowych. Instalacja wymaga Twojego potwierdzenia. Jeśli opuścisz stronę w trakcie pobierania, wybierz później tę samą aplikację i opcję Archive.org, aby kontynuować.</string>
+    <string name="legacy_apk_download">Pobierz APK</string>
+    <string name="legacy_apk_cancel_download">Anuluj pobieranie</string>
+    <string name="legacy_apk_retry">Ponów pobieranie</string>
+    <string name="legacy_apk_continue">Przejdź do instalacji</string>
+    <string name="legacy_apk_not_configured">To źródło nie jest skonfigurowane. Twórca ROM-u musi podać adres HTTPS pliku APK i prawidłową sumę SHA-256.</string>
+    <string name="legacy_apk_ready_to_download">Gotowe do pobrania.</string>
+    <string name="legacy_apk_pending">Oczekiwanie na pobieranie…</string>
+    <string name="legacy_apk_running">Pobieranie: %1$d%%</string>
+    <string name="legacy_apk_running_unknown">Pobieranie…</string>
+    <string name="legacy_apk_paused">Pobieranie wstrzymane lub czeka na sieć. Możesz opuścić tę stronę i wrócić później.</string>
+    <string name="legacy_apk_verifying">Weryfikowanie pobranego pliku APK…</string>
+    <string name="legacy_apk_verified">APK zweryfikowany. Przejdź do instalacji, aby otworzyć instalator Androida. Jeśli pojawi się prośba, zezwól na instalację z Ustawień BlackBerry, wróć tutaj i kontynuuj.</string>
+    <string name="legacy_apk_missing">Pobrany plik nie jest już dostępny. Pobierz go ponownie.</string>
+    <string name="legacy_apk_failed">Pobieranie nie powiodło się (kod DownloadManager %1$d). Sprawdź połączenie i adres źródła, a potem spróbuj ponownie.</string>
+    <string name="legacy_apk_error">Nie można kontynuować: %1$s</string>
+    <string name="legacy_apk_bad_hash">Niezgodna suma SHA-256. Plik APK został odrzucony i nie zostanie zainstalowany.</string>
+    <string name="legacy_apk_bad_package">Plik nie jest prawidłowym, samodzielnym APK wybranej aplikacji.</string>
+    <string name="legacy_apk_too_large">Plik APK przekracza limit 200 MiB.</string>
+    <string name="legacy_apk_install_unavailable">Nie udało się otworzyć instalatora ani ustawień źródeł instalacji.</string>
+    <string name="legacy_apk_installing">Czekam na zakończenie instalatora Androida…</string>
+</resources>

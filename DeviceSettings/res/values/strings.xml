@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
 <resources>
     <string name="device_settings_app_label">BlackBerry Settings</string>
-    <string name="device_settings_title">BlackBerry settings</string>
-    <string name="device_settings_summary">Physical keyboard settings, hardware configuration, legacy BlackBerry apps</string>
+    <string name="device_settings_title">BlackBerry Keyboard</string>
+    <string name="device_settings_summary">Keyboard touchpad, backlight, PIN input and shortcuts</string>
 
     <string name="keyboard_category">Keyboard</string>
 
-    <string name="keyboard_touchpad_enabled_title">Enable keyboard touchpad</string>
+    <string name="keyboard_touchpad_enabled_title">Keyboard touchpad</string>
     <string name="keyboard_touchpad_enabled_summary">Power the capacitive keyboard touchpad for scrolling, gestures, and backlight activation</string>
 
     <string name="keyboard_pin_input_title">Keyboard PIN input</string>
-    <string name="keyboard_pin_input_summary">Type lockscreen PIN using physical keyboard</string>
+    <string name="keyboard_pin_input_summary">Type the SIM PIN and the lock screen PIN or password on the physical keyboard</string>
 
     <string name="show_ime_title">Allow on-screen keyboard</string>
     <string name="show_ime_summary">Show virtual keyboard even when hardware keyboard is connected</string>
 
-    <string name="ime_switcher_shortcut_title">IME switcher shortcut</string>
+    <string name="ime_switcher_shortcut_title">Input method switcher shortcut</string>
     <string name="ime_switcher_shortcut_summary">Key combination to open input method picker</string>
 
     <string name="ime_shortcut_alt_enter">Alt + Enter</string>
     <string name="ime_shortcut_shift_space">Shift + Space</string>
-    <string name="ime_shortcut_ctrl">Ctrl key</string>
-    <string name="ime_shortcut_sym">SYM key</string>
+    <string name="ime_shortcut_ctrl">Ctrl or Fn key</string>
+    <string name="ime_shortcut_sym">Sym key</string>
 
     <string name="keyboard_backlight_category">Keyboard backlight</string>
-    <string name="keyboard_adaptive_brightness_title">Keyboard adaptive brightness</string>
-    <string name="keyboard_adaptive_brightness_summary">Keyboard backlight scales with screen brightness</string>
+    <string name="keyboard_backlight_enabled_title">Keyboard backlight</string>
+    <string name="keyboard_backlight_enabled_summary">Light the keyboard while the screen is on</string>
+    <string name="keyboard_adaptive_brightness_title">Adaptive keyboard brightness</string>
+    <string name="keyboard_adaptive_brightness_summary">Adjust the keyboard backlight to the ambient light, following the screen brightness</string>
     <string name="keyboard_high_brightness_off_title">Turn off with bright screen</string>
     <string name="keyboard_high_brightness_off_summary">Turn off keyboard backlight at high screen brightness for power saving in daylight</string>
     <string name="keyboard_brightness_title">Keyboard brightness</string>
-    <string name="keyboard_brightness_summary">Brightness level for keyboard backlight</string>
+    <string name="keyboard_brightness_summary">Maximum keyboard backlight level. With adaptive brightness on, the backlight adapts below this level.</string>
     <string name="keyboard_backlight_timeout_title">Keyboard backlight timeout</string>
     <string name="keyboard_backlight_timeout_summary">Time before keyboard backlight turns off</string>
     <string name="keyboard_only_when_pressed_title">Only light on press</string>
@@ -38,8 +44,8 @@
     <string name="keyboard_on_touch_summary">Keyboard backlight also turns on with keyboard touch (requires keyboard touchpad enabled)</string>
 
     <string name="button_backlight_category">Button backlight</string>
-    <string name="button_adaptive_brightness_title">Button adaptive brightness</string>
-    <string name="button_adaptive_brightness_summary">Navigation button backlight scales with screen brightness</string>
+    <string name="button_adaptive_brightness_title">Adaptive button brightness</string>
+    <string name="button_adaptive_brightness_summary">Adjust the navigation button backlight to the ambient light, following the screen brightness</string>
     <string name="button_brightness_title">Button brightness</string>
     <string name="button_brightness_summary">Brightness level for navigation buttons</string>
     <string name="button_backlight_timeout_title">Button backlight timeout</string>
@@ -62,6 +68,10 @@
     <string name="host_dt2w_summary">Alternate double-tap-to-wake detection. This may improve reliability for FocalTech touchscreens but can increase standby power.</string>
 
     <string name="apps_category">Apps</string>
+
+    <string name="tile_keyboard_touchpad">Keyboard touchpad</string>
+    <string name="tile_state_on">On</string>
+    <string name="tile_state_off">Off</string>
     <string name="legacy_blackberry_apps_title">Legacy BlackBerry apps</string>
     <string name="legacy_blackberry_apps_summary">Install original BlackBerry KEY2 apps from Google Play or Archive.org</string>
     <string name="legacy_blackberry_apps_instructions">Tap an app to install from Google Play or Archive.org.</string>

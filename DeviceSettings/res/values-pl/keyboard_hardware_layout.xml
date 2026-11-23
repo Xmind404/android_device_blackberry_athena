@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="keyboard_hardware_layout_title">Układ klawiatury fizycznej</string>
+    <string name="keyboard_hardware_layout_auto">Automatyczny (ustawienie fabryczne)</string>
+    <string name="keyboard_hardware_layout_current">Obecnie: %1$s. Dotyczy wszystkich języków wprowadzania.</string>
+    <string name="keyboard_hardware_layout_pending">Wybrano %1$s. Wymagany restart. Obecnie: %2$s.</string>
+    <string name="keyboard_hardware_layout_restart">Wybrano %1$s. Uruchom ponownie, aby zastosować układ klawiatury.</string>
+    <string name="keyboard_hardware_layout_apply_failed">Wybrano %1$s. Nie udało się zastosować układu przy uruchomieniu. Wybierz układ i uruchom ponownie, aby spróbować jeszcze raz.</string>
+    <string name="keyboard_hardware_layout_save_failed">Nie udało się zapisać układu klawiatury.</string>
+</resources>
