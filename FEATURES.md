@@ -22,7 +22,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 10 | PIN SIM (i PUK) z klawiatury | implemented – needs device test (cyfry z KCM bez Alt, przełącznik keyboard_pin_input) | base 059d23b16 |
 | 11 | PIN / hasło blokady z klawiatury (pierwszy klawisz na ekranie blokady otwiera bouncer i nie przepada) | implemented – needs device test; Compose bouncer (scene_container) nieobsługiwany, flaga wyłączona w cp2a | base 059d23b16 |
 | 12 | Bateria: power_profile 3500 mAh (OK), deep sleep włączany po starcie (post_boot, OK), schedutil 4.19 (OK), limit ładowania (Lineage ChargingControl), wyłączona telemetria hwui; podświetlenie gaśnie poza AWAKE | implemented – needs device measurement | sdm660-common d744aa2, base e44c4aebe, e5ca7961c |
-| 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
+| 13 | Aperture: spacja = migawka (start/stop w wideo), touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, K, MF z zakresów CameraCharacteristics) | implemented – needs compile + device test; 10 poprawek Lineage-BBKey2 jeszcze do portu | Aperture f0bfc79, 374888b, e294a0d |
 | 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, ostrość, start/stop wideo, klawisze IME, dok, Trusted, ładowanie bezprzewodowe) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
 | 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor/blackberry/media 0b007b8 |
 | 16 | Animacja rozruchu BlackBerry zamiast LineageOS | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
@@ -139,6 +139,18 @@ adb shell 'for l in /sys/class/leds/led:torch_* /sys/class/leds/led:switch_* /sy
 # włącz latarkę z QS:
 adb shell 'for l in /sys/class/leds/led:torch_* /sys/class/leds/led:switch_*; do echo "$l $(cat $l/brightness)"; done' >> ~/logs/torch.txt
 adb shell dumpsys media.camera | grep -iA5 torch >> ~/logs/torch.txt
+```
+
+### 13. Aperture
+Oczekiwane: pasek trybów Pro · Zdjęcie · Wideo · Skaner; spacja robi zdjęcie / start-stop nagrywania
+(Ustawienia aparatu → „Funkcja spacji”); przesunięcie palcem po klawiaturze w prawo przybliża, w lewo
+oddala, bez wyzwalania zdjęcia; „Zapisuj na karcie SD” zapisuje do DCIM/Camera na karcie, a bez karty
+pokazuje komunikat i zapisuje wewnętrznie; w trybie Pro widać tylko kontrolki obsługiwane przez HAL,
+a zdjęcie z ręcznym ISO/czasem ma te wartości w EXIF.
+```
+adb shell dumpsys media.camera | grep -iE "android.sensor.info.sensitivityRange|exposureTimeRange|availableCapabilities" > ~/logs/aperture.txt
+adb shell ls /storage/*/DCIM/Camera | tail -5 >> ~/logs/aperture.txt
+adb logcat -d | grep -iE "Aperture|CameraX|Camera2" >> ~/logs/aperture.txt
 ```
 
 ### 12. Bateria
