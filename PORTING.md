@@ -70,6 +70,10 @@ w treści i diffach wszystkich łatek).
 - **D4. `5fde4034` Domain Verification Auto-Approve.** Bez GMS zatwierdza App Links bez weryfikacji
   domeny, co jest kompromisem bezpieczeństwa (każda aplikacja może przejąć linki https dowolnej
   domeny). Rekomendacja: nie portować albo włączać tylko, gdy brak weryfikatora Google.
+- **D6. `3a077a4a` uprawnienie BlackBerry Hub dla BlackBerry Keyboard.** Framework deklarowałby
+  uprawnienie `com.blackberry.pim.permission.READ_MESSAGES` (dangerous) i dopisywał regułę ścieżkową
+  do dostawcy treści aplikacji BlackBerry Hub. Przydatne tylko dla BlackBerry Keyboard
+  (personalizowane podpowiedzi). Rekomendacja: nie portować, dopóki ktoś faktycznie tego nie potrzebuje.
 - **D5. Opcjonalne:** radio FM (fm-commonsys + RevampedFMRadio), LatinIME (SYM), DownloadProvider
   (paczki językowe BlackBerry Keyboard), kafelek Cast (`e43c3fd3`, `d4674016`). Domyślnie odłożone.
 
@@ -137,7 +141,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [e77da8f5](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e77da8f59ecea58051a3594f1437af1ffa77036d) | tim-ecoder | adaptive keyboard and button backlight | konflikt 2 | Podświetlenie 2/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [afe701ca](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/afe701cab69a0279aaa623ab35ad7d2d4df8004f) | zapaca | PowerManagerService: Adaptive backlight mod for Luna's dimmer keyboard backlight | konflikt 2 | Podświetlenie 3/12, luna | dropped – luna only | – |
 | [5fde4034](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/5fde403493dd3c26ddc1fcf78dd2a3de8fa5e01b) | zapaca | frameworks_base: Domain Verification Auto-Approve | czysto | Bezpieczeństwo: auto-zatwierdzanie App Links bez GMS | deferred – wymaga Twojej decyzji (osłabia weryfikację domen; z GApps zbędne) | – |
-| [0693b591](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0693b5910498372fe40a7b27e01c1ac7a74228e0) | zapaca | hwui: disable bitmap decode telemetry | konflikt 2 | Bateria/telemetria | adapted: StatsUtils.cpp zmieniony w 24.0; port w etapie bateria | – |
+| [0693b591](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0693b5910498372fe40a7b27e01c1ac7a74228e0) | zapaca | hwui: disable bitmap decode telemetry | konflikt 2 | Bateria/telemetria | adapted (StatsUtils 24.0 zmieniony; funkcje puste) | [e44c4aebe](https://github.com/Xmind404/android_frameworks_base/commit/e44c4aebe) |
 | [72f2d1e7](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/72f2d1e7b83415e1a22e15c8eb81fde436f3a2cb) | zapaca | Bluetooth: car-bt-sco-a2dp-reroute patch | czysto | BT: SCO/A2DP w aucie | adapted: setForceUse_Async z intencją brokera zamiast twardego FORCE_NONE | [67d26be49](https://github.com/Xmind404/android_frameworks_base/commit/67d26be49) |
 | [ebdd4d6f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ebdd4d6f4c633af3763df31c4d518e23ac82abc6) | zapaca | PowerManagerService: Keyboard backlight floor increase and off in daylight | konflikt 2 | Podświetlenie 4/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [628fd7e7](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/628fd7e75556f5c975c70ed96613d07f455a6300) | zapaca | touchpad scroll handler | konflikt 2 | Touch-scroll 1/5 (zasada 7) | adapted (1:1 handler, stan końcowy serii) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
@@ -152,7 +156,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [8a223c98](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8a223c985d1161f9a893cacec337512583c930b6) | zapaca | power: Add independent keyboard backlight controls, fix light state bugs | konflikt 2 | Podświetlenie 8/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [76605e9e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/76605e9eb117a24dd10d2384200e9c32bc539226) | zapaca | base: add light-on-touch and independent keyboard scrolling capability | konflikt 12 | Touch-scroll 4/5 + podświetlenie 9/12 | adapted: ViewRootImpl → f7b9f29bb, PMS/JNI → e5ca7961c | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb), [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [790cd2ba](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/790cd2bada637fa84cc810dc9bb49c991863cde1) | zapaca | ViewRootImpl: avoid focus changes from touch keypad input | czysto | Touch-scroll 5/5 | ported (scalone w f7b9f29bb) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
-| [3a077a4a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3a077a4ac10f312945256d7157d2f7235e7cf2aa) | zapaca | base: Restore BlackBerry Hub message personalization access | konflikt 2 | BlackBerry Hub READ_MESSAGES | planned – niski priorytet (dla BlackBerry Keyboard; część systemowa) | – |
+| [3a077a4a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3a077a4ac10f312945256d7157d2f7235e7cf2aa) | zapaca | base: Restore BlackBerry Hub message personalization access | konflikt 2 | BlackBerry Hub READ_MESSAGES | deferred – decyzja D6 (kompromis bezpieczeństwa, tylko BlackBerry Keyboard) | – |
 | [d44840d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d44840d16bd33867e3d0b9c45cb9ecec1c434b67) | zapaca | NetworkPolicy: refresh rules for adopted-storage apps | czysto | NetworkPolicy, adopted storage | ported (24.0 nie zawiera poprawki) | [dfdb0a3fd](https://github.com/Xmind404/android_frameworks_base/commit/dfdb0a3fd) |
 | [ba9b79d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ba9b79d1da0275157a5ba25c829dff5d105c78fb) | zapaca | keyguard: Fix intermittent keyboard PIN delete/enter, support QWERTZ/AZERTY PIN input | konflikt 6 | PIN z klawiatury 2/2 | replaced: przepisane od nowa (mapowanie z KCM, bez trwałego bouncera, SIM PIN/PUK + hasło, przełącznik) | [059d23b16](https://github.com/Xmind404/android_frameworks_base/commit/059d23b16) |
 | [2625ccfd](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/2625ccfdbdddd258127733bc210991855f36c7a3) | zapaca | SettingsProvider: support configurable display density defaults | konflikt 2 | Gęstość ekranu | planned: wymaga forka Settings (bb7ef10) | – |
@@ -376,3 +380,11 @@ starszego stanu Lineage-BBKey2. Faktycznie własne różnice:
 | vendor sdm660-common | efa4f81 | regeneracja po dodaniu namespace commonsys/display |
 | device sdm660-common | ebe2f24 | `livedisplay_sdm enable_dm` przez `soong_config_set_bool` (24.0 wymaga typu bool) |
 | device sdm660-common | [af4fdf7](https://github.com/Xmind404/android_device_blackberry_sdm660-common/commit/af4fdf7) | usunięty `vendor/lineage/config/device_framework_matrix.xml` (24.0 instaluje `framework_compatibility_matrix.lineage.xml` sam) |
+
+### Aperture – kolejność portu delty Lineage-BBKey2
+
+Po pierwszej udanej kompilacji `m Aperture` (tryb PRO przebudował nakładanie opcji Camera2):
+`930a25c` (prywatność kamery) → `2b238bd` (wiązanie po layoucie) → `44b6709` (ponowne nakładanie
+opcji po cyklu życia, scalić z `applyCaptureRequestOptions`) → `bf29375`, `51f8932`, `6bbafbe`,
+`3b5c9e2`, `d17e805`, `4e562c7` (podgląd na ekranie 3:2) → `a60b0a5` (HDR, scalić z PRO: scene
+mode HDR nie łączy się z ręczną ekspozycją).
