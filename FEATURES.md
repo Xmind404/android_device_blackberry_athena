@@ -15,14 +15,14 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 5a | Klawisze fizyczne (Alt, Shift, Sym, Convenience) | in progress (overlay KCM, Alt w BB Keyboard: implemented – needs device test) | `0319a4ee`, `8013a1ed`, native EventHub, IME switcher |
 | 5b | Touch na klawiaturze: scroll | implemented – needs device test | `628fd7e7`, `ddf8eec1`, `dc4ea330`, `76605e9e`, `790cd2ba`, native `8eeea09` |
 | 5c | Podświetlenie klawiatury i przycisków | implemented – needs device test (adaptacja wg czujnika światła: Etap 3 pkt 6) | seria PMS (12 commitów), kernel `656bd38`, `92a1143` |
-| 6 | Kafelek QS „Dotyk klawiatury” + Ustawienia → System → „BlackBerry Keyboard” | not started | DeviceSettings (istnieje), `0f15676a` (replaced) |
+| 6 | Kafelek QS „Dotyk klawiatury” (ikona: SVG touchpada z CLAUDE.md pkt 6) + Ustawienia → System → „BlackBerry Keyboard” | not started | DeviceSettings (istnieje), `0f15676a` (replaced) |
 | 7 | Automatyczny wybór KCM (QWERTY/QWERTZ/AZERTY) | not started | `0319a4ee`, native `fb827f8` |
 | 8 | Fingerprint na spacji | not started | vendor athena (Goodix AIDL) |
 | 9 | Latarka dual-tone (+ panel suwaków) | not started | – |
 | 10 | PIN SIM z klawiatury | not started | `c87cf219`, `ba9b79d1` (adapted) |
 | 11 | PIN / hasło blokady z klawiatury | not started | `c87cf219`, `ba9b79d1` (adapted) |
 | 12 | Bateria (power_profile, deep sleep, cpufreq, ChargingControl) | not started | `0693b591` |
-| 13 | Aperture: spacja = migawka, swipe na klawiaturze = zoom | not started | + 10 commitów Aperture Lineage-BBKey2 |
+| 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
 
 ## Plan testów (komendy uzupełniam w miarę implementacji)
 
