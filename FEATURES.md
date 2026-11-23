@@ -5,9 +5,9 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 
 | # | Funkcja | Status | Źródło (PORTING.md) |
 |---|---|---|---|
-| E2a | EROFS w kernelu (GMS APEX z MindTheGapps) | not started | Etap 2a |
+| E2a | EROFS w kernelu (GMS APEX z MindTheGapps) | implemented – needs device test (kernel 8996931) | Etap 2a |
 | E2b | Miejsce na system pod MindTheGapps | not started | Etap 2b |
-| E2c | Recovery: sideload niepodpisanego add-onu, reboot do recovery | not started | Etap 2c, `1048d83` |
+| E2c | Recovery: sideload niepodpisanego add-onu, reboot do recovery | supported by official 24.0 recovery (`ask_to_continue_unverified`, „Reboot to recovery”) – needs device test | Etap 2c |
 | 1 | NFC | not started | – |
 | 2 | GPS | not started | – |
 | 3 | Ekran (panel, jasność, obrót, CABL) | not started | display: import = czubek Lineage-BBKey2 |
@@ -27,7 +27,14 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 ## Plan testów (komendy uzupełniam w miarę implementacji)
 
 ### E2: instalacja z GApps i bez
-Procedura zostanie opisana po Etapie 2, zgodnie z raportem.
+Pełna procedura zostanie dopisana po Etapie 2b (miejsce na system). Weryfikacja EROFS / GMS po instalacji z GApps:
+```
+adb shell zcat /proc/config.gz | grep EROFS > ~/logs/gapps.txt   # jeśli dostępne; inaczej: adb shell cat /proc/filesystems | grep erofs
+adb shell cat /proc/filesystems | grep erofs >> ~/logs/gapps.txt
+adb shell pm list packages | grep -E "com.google.android.gms|com.android.vending" >> ~/logs/gapps.txt
+adb shell dumpsys apexservice 2>/dev/null | grep -A3 gmssystem >> ~/logs/gapps.txt
+adb logcat -d | grep -iE "apexd|gservices" >> ~/logs/gapps.txt
+```
 
 ### 5a. Klawisze / KCM
 Oczekiwane: Alt+klawisz daje znak z warstwy Alt aktywnego KCM (QWERTZ), Sym działa w athenaKB,

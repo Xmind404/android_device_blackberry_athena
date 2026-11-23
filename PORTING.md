@@ -245,7 +245,7 @@ gdy w Etapie 2c okaże się, że 24.0 nie naprawia `1048d83`.
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [1048d83](https://github.com/Lineage-BBKey2/android_bootable_recovery/commit/1048d83649bf0f7b386bfd25a909231dd266bd39) | zapaca | recovery: create the locale directory before saving | czysto | Recovery: katalog locale | planned: Etap 2c; fork bootable/recovery jeśli 24.0 nie naprawia | – |
+| [1048d83](https://github.com/Lineage-BBKey2/android_bootable_recovery/commit/1048d83649bf0f7b386bfd25a909231dd266bd39) | zapaca | recovery: create the locale directory before saving | czysto | Recovery: katalog locale | deferred – kosmetyka (recovery nie pamięta języka bez /cache/recovery); wymagałoby forka bootable/recovery, a sideload GApps działa w oficjalnym 24.0 | – |
 
 ### android_vendor_qcom_opensource_fm-commonsys
 
@@ -329,7 +329,7 @@ starszego stanu Lineage-BBKey2. Faktycznie własne różnice:
 ## Uwagi techniczne zebrane w Etapie 0
 
 - Defconfig athena: `TARGET_KERNEL_CONFIG := athena-perf_defconfig` (`kernel/blackberry/sdm660-4p19/arch/arm64/configs/athena-perf_defconfig`).
-  EROFS jest w drzewie jako backport `fs/erofs`, ale defconfig go nie włącza (`CONFIG_STAGING=y` jest). Do zrobienia w Etapie 2a.
+  EROFS (backport `fs/erofs`) włączony w [8996931](https://github.com/Xmind404/android_kernel_blackberry_sdm660-4p19/commit/8996931) (Etap 2a).
 - Partycje **statyczne** (brak dynamic partitions): `BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2684354560` (2,5 GiB),
   vendor 661 MiB, brak osobnych product/system_ext. Rezerwę na MindTheGapps trzeba policzyć na system (Etap 2b).
 - `device/blackberry/athena/DeviceSettings` (`BlackBerrySettings_athena`, podpis platform) już istnieje i jest
