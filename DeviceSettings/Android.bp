@@ -10,5 +10,6 @@ android_app {
         "androidx.preference_preference",
         "com.google.android.material_material",
         "androidx.core_core",
+        "org.lineageos.platform.internal",
     ],
 }

@@ -11,6 +11,8 @@ import android.provider.Settings;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
+import lineageos.providers.LineageSettings;
+
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -148,9 +150,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             // Keyboard brightness (0.0 - 1.0 stored, 0-100 displayed)
             SeekBarPreference kbdBright = findPreference(KEY_KEYBOARD_BRIGHTNESS);
             if (kbdBright != null) {
-                float current = Settings.Secure.getFloat(
+                float current = LineageSettings.Secure.getFloat(
                         getContext().getContentResolver(),
-                        "keyboard_brightness", -1.0f);
+                        LineageSettings.Secure.KEYBOARD_BRIGHTNESS, -1.0f);
                 kbdBright.setValue(current >= 0 ? Math.round(current * 100) : 100);
                 kbdBright.setOnPreferenceChangeListener(this);
             }
@@ -201,9 +203,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             // Button brightness (0.0 - 1.0 stored, 0-100 displayed)
             SeekBarPreference btnBright = findPreference(KEY_BUTTON_BRIGHTNESS);
             if (btnBright != null) {
-                float current = Settings.Secure.getFloat(
+                float current = LineageSettings.Secure.getFloat(
                         getContext().getContentResolver(),
-                        "button_brightness", -1.0f);
+                        LineageSettings.Secure.BUTTON_BRIGHTNESS, -1.0f);
                 btnBright.setValue(current >= 0 ? Math.round(current * 100) : 100);
                 btnBright.setOnPreferenceChangeListener(this);
             }
@@ -211,9 +213,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             // Button timeout
             ListPreference btnTimeout = findPreference(KEY_BUTTON_TIMEOUT);
             if (btnTimeout != null) {
-                int current = Settings.Secure.getInt(
+                int current = LineageSettings.Secure.getInt(
                         getContext().getContentResolver(),
-                        "button_backlight_timeout", 10000);
+                        LineageSettings.Secure.BUTTON_BACKLIGHT_TIMEOUT, 10000);
                 btnTimeout.setValue(String.valueOf(current));
                 btnTimeout.setSummary(btnTimeout.getEntry());
                 btnTimeout.setOnPreferenceChangeListener(this);
@@ -222,9 +224,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             // Button only when pressed
             SwitchPreference btnPressed = findPreference(KEY_BUTTON_ONLY_PRESSED);
             if (btnPressed != null) {
-                int current = Settings.Secure.getInt(
+                int current = LineageSettings.System.getInt(
                         getContext().getContentResolver(),
-                        "button_backlight_only_when_pressed", 0);
+                        LineageSettings.System.BUTTON_BACKLIGHT_ONLY_WHEN_PRESSED, 0);
                 btnPressed.setChecked(current == 1);
                 btnPressed.setOnPreferenceChangeListener(this);
             }
@@ -345,9 +347,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
                 }
                 case KEY_KEYBOARD_BRIGHTNESS: {
                     int percent = (int) newValue;
-                    Settings.Secure.putFloat(
+                    LineageSettings.Secure.putFloat(
                             getContext().getContentResolver(),
-                            "keyboard_brightness", percent / 100.0f);
+                            LineageSettings.Secure.KEYBOARD_BRIGHTNESS, percent / 100.0f);
                     return true;
                 }
                 case KEY_KEYBOARD_TIMEOUT: {
@@ -387,16 +389,16 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
                 }
                 case KEY_BUTTON_BRIGHTNESS: {
                     int percent = (int) newValue;
-                    Settings.Secure.putFloat(
+                    LineageSettings.Secure.putFloat(
                             getContext().getContentResolver(),
-                            "button_brightness", percent / 100.0f);
+                            LineageSettings.Secure.BUTTON_BRIGHTNESS, percent / 100.0f);
                     return true;
                 }
                 case KEY_BUTTON_TIMEOUT: {
                     int value = Integer.parseInt((String) newValue);
-                    Settings.Secure.putInt(
+                    LineageSettings.Secure.putInt(
                             getContext().getContentResolver(),
-                            "button_backlight_timeout", value);
+                            LineageSettings.Secure.BUTTON_BACKLIGHT_TIMEOUT, value);
                     ListPreference lp = (ListPreference) preference;
                     int idx = lp.findIndexOfValue((String) newValue);
                     lp.setSummary(lp.getEntries()[idx]);
@@ -404,9 +406,9 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
                 }
                 case KEY_BUTTON_ONLY_PRESSED: {
                     boolean checked = (boolean) newValue;
-                    Settings.Secure.putInt(
+                    LineageSettings.System.putInt(
                             getContext().getContentResolver(),
-                            "button_backlight_only_when_pressed",
+                            LineageSettings.System.BUTTON_BACKLIGHT_ONLY_WHEN_PRESSED,
                             checked ? 1 : 0);
                     updateOnTouchPreference(KEY_BUTTON_ON_KEYBOARD_TOUCH, checked);
                     return true;
