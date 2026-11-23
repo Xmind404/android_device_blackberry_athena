@@ -26,6 +26,11 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, ostrość, start/stop wideo, klawisze IME, dok, Trusted, ładowanie bezprzewodowe) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
 | 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor/blackberry/media 0b007b8 |
 | 16 | Animacja rozruchu BlackBerry zamiast LineageOS | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
+| 17 | Klawisz Convenience (Asystent/AI domyślnie, Aparat, Latarka, Nic) i dwukrotne naciśnięcie zasilania (Aparat domyślnie, Portfel, Nic) w „BlackBerry Keyboard” | implemented – needs device test | athena 34cf33a, sdm660-common 0207c32 |
+| 18 | Czułość dotyku klawiatury 50–200 % (100 % = stałe BlackBerry, bez zmian dla athenaKB) | implemented – needs device test | base 3e520add4, athena 34cf33a |
+| 19 | Dioda RGB: kolory powiadomień per aplikacja / automatyczny kolor ikony, bateria: czerwona/pomarańczowa (ładowanie)/zielona | implemented – needs device test | sdm660-common dbab284 |
+| 20 | Szybsze wybudzanie czytnikiem na spacji (wakelock IRQ 500 → 2000 ms) | implemented – needs device test | kernel b420eb2 |
+| 21 | OTA przez Updater bez utraty danych + generator athena.json | implemented – needs release test | athena tools/generate-ota-json.sh |
 
 ## Plan testów (komendy uzupełniam w miarę implementacji)
 
@@ -154,6 +159,55 @@ adb shell dumpsys media.camera | grep -iE "android.sensor.info.sensitivityRange|
 adb shell ls /storage/*/DCIM/Camera | tail -5 >> ~/logs/aperture.txt
 adb logcat -d | grep -iE "Aperture|CameraX|Camera2" >> ~/logs/aperture.txt
 ```
+
+### 17–18. Klawisze i czułość
+Oczekiwane: Convenience = Asystent (z GApps: Gemini); po zmianie na Aparat otwiera aparat (także przy
+zablokowanym ekranie, w trybie bezpiecznym), Latarka przełącza latarkę; dwukrotne naciśnięcie
+zasilania otwiera aparat; suwak czułości zmienia szybkość przewijania od razu.
+```
+adb shell settings get secure convenience_key_action > ~/logs/keys.txt
+adb shell settings get secure double_tap_power_button_gesture_enabled >> ~/logs/keys.txt
+adb shell getprop persist.vendor.touchkeypad.sensitivity >> ~/logs/keys.txt
+adb logcat -d | grep -iE "BlackBerryKeyHandler|device key handler" >> ~/logs/keys.txt
+```
+
+### 19. Dioda powiadomień
+Ustawienia → Powiadomienia → Dioda powiadomień (kolor per aplikacja, „automatyczny” = kolor ikony)
+i Ustawienia → Bateria → Dioda baterii. Przy ładowaniu bez powiadomień: pomarańczowa.
+```
+adb shell cat /sys/class/leds/red/brightness /sys/class/leds/green/brightness /sys/class/leds/blue/brightness > ~/logs/led.txt
+adb shell dumpsys lights >> ~/logs/led.txt
+```
+
+### 20. Czytnik linii papilarnych
+Oczekiwane: przy wyłączonym ekranie dotknięcie spacji odblokowuje bez ~1 s opóźnienia.
+```
+adb logcat -c   # wyłącz ekran, odblokuj palcem
+adb logcat -d -v time | grep -iE "gx_fpd|fingerprint|goodix|PowerManagerService.*Waking" > ~/logs/fp.txt
+adb shell cat /sys/kernel/debug/wakeup_sources 2>/dev/null | grep fp_wakelock >> ~/logs/fp.txt
+```
+
+### 21. OTA, aktualizacje i flashowanie
+- **Dane użytkownika:** Updater LineageOS pobiera pełną paczkę i instaluje ją w recovery bez formatowania
+  /data, więc aktualizacja OTA nie usuwa danych.
+- **Aplikacje zamykające się po aktualizacji (problem z 22.2):** najczęstsza przyczyna to zmiana klucza
+  podpisu między buildami (np. wydanie Lineage-BBKey2 podpisane jego kluczami → własny build z test-keys)
+  bez czyszczenia danych; wtedy aplikacje systemowe z innym podpisem nie mogą przejąć swoich danych.
+  Zasada: zawsze aktualizuj buildem podpisanym tym samym kluczem co zainstalowany system; przy zmianie
+  źródła/klucza zrób Format data. Odcisk builda (stały, dla certyfikacji Play) nie blokuje wykrycia
+  aktualizacji, bo PackageManager uwzględnia też ro.build.version.incremental, zmieniający się co build.
+- **Wydanie OTA:** po `m bacon` wygeneruj wpis Updatera i wrzuć paczkę jako release o tej samej nazwie:
+```
+cd ~/android/LineageOS_24
+Z=$(ls -t out/target/product/athena/lineage-24.0-*-athena.zip | head -1)
+device/blackberry/athena/tools/generate-ota-json.sh "$Z" > ~/athena.json
+# release: gh release create "$(basename "$Z" .zip)" "$Z" -R Xmind404/distribution
+# potem podmień athena.json na gałęzi lineage-24.0 repo Xmind404/distribution
+```
+- **Flashowanie obrazów (fastboot / narzędzia WebUSB):** obrazy do wgrania przez fastboot
+  (boot, recovery, dtbo, system, vendor) są w `out/target/product/athena/*.img`; paczkę z nimi daje
+  `m updatepackage`. Narzędzia WebUSB oparte na fastboot wgrywają te same obrazy – bez
+  `fastboot -w` dane zostają.
 
 ### 12. Bateria
 Oczekiwane: Ustawienia → Bateria → Kontrola ładowania dostępna i zatrzymuje ładowanie na limicie;
