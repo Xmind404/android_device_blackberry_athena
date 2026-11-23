@@ -16,11 +16,11 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 5b | Touch na klawiaturze: scroll | implemented – needs device test | `628fd7e7`, `ddf8eec1`, `dc4ea330`, `76605e9e`, `790cd2ba`, native `8eeea09` |
 | 5c | Podświetlenie klawiatury i przycisków | implemented – needs device test (adaptacja wg czujnika światła: Etap 3 pkt 6) | seria PMS (12 commitów), kernel `656bd38`, `92a1143` |
 | 6 | Kafelek QS „Dotyk klawiatury” (ikona SVG) + Ustawienia → System → „BlackBerry Keyboard” (pl/en), adaptacja wg jasności wyświetlacza (czujnik światła przy auto-jasności) | implemented – needs device test | device f364896, e73377b; base 040eebe9d |
-| 7 | Automatyczny wybór KCM (QWERTY/QWERTZ/AZERTY) | not started | `0319a4ee`, native `fb827f8` |
+| 7 | Automatyczny wybór KCM (QWERTY/QWERTZ/AZERTY) | implemented – needs device test: init.keypad.sh czyta wariant fabryczny z partycji trace (trace_util r 8) → sysfs kl → nazwa urządzenia → IDC → KCM; ręczne nadpisanie opcjonalne (domyślnie Automatyczny) | sdm660-common init.keypad.sh, IDC/KCM |
 | 8 | Fingerprint na spacji | not started | vendor athena (Goodix AIDL) |
 | 9 | Latarka dual-tone (+ panel suwaków) | not started | – |
-| 10 | PIN SIM z klawiatury | not started | `c87cf219`, `ba9b79d1` (adapted) |
-| 11 | PIN / hasło blokady z klawiatury | not started | `c87cf219`, `ba9b79d1` (adapted) |
+| 10 | PIN SIM (i PUK) z klawiatury | implemented – needs device test (cyfry z KCM bez Alt, przełącznik keyboard_pin_input) | base 059d23b16 |
+| 11 | PIN / hasło blokady z klawiatury (pierwszy klawisz na ekranie blokady otwiera bouncer i nie przepada) | implemented – needs device test; Compose bouncer (scene_container) nieobsługiwany, flaga wyłączona w cp2a | base 059d23b16 |
 | 12 | Bateria (power_profile, deep sleep, cpufreq, ChargingControl) | not started | `0693b591` |
 | 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
 | 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, ostrość, start/stop wideo, klawisze IME, dok, Trusted, ładowanie bezprzewodowe) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
@@ -108,6 +108,25 @@ adb shell getprop persist.vendor.touchkeypad.disabled > ~/logs/kbsettings.txt
 adb shell cat /sys/devices/touch_keypad/turn_off >> ~/logs/kbsettings.txt
 adb shell settings get secure keyboard_backlight_enabled >> ~/logs/kbsettings.txt
 adb shell dumpsys power | grep -E "mDisplayBrightnessFraction|mKeyboard" >> ~/logs/kbsettings.txt
+```
+
+### 7. Wykrywanie układu
+Oczekiwane na QWERTZ: urządzenie `stmpe_qwertz_keypad`, KCM `stmpe_qwertz`, Y/Z na właściwych miejscach.
+```
+adb shell getprop ro.hwf.keypadlanguage > ~/logs/layout.txt          # oczekiwane: "3 qwertz"
+adb shell getprop vendor.bb.keyboard.layout.applied >> ~/logs/layout.txt   # auto:qwertz
+adb shell dumpsys input | grep -A12 -i "stmpe" >> ~/logs/layout.txt
+```
+
+### 10/11. PIN SIM, PIN i hasło blokady z klawiatury
+Oczekiwane: na ekranie PIN-u (SIM lub blokady) litery W E R / S D F / Y X C i klawisz 0 wpisują
+1–9 i 0 bez Alt, Del kasuje, Enter zatwierdza; na ekranie blokady (przed przesunięciem) pierwsza
+wpisana cyfra/litera otwiera pole PIN/hasła i od razu się w nim pojawia; hasło wpisuje się bez
+klawiatury ekranowej, także zaraz po restarcie. Po wyłączeniu „Wpisywanie PIN-u z klawiatury”
+cyfry wymagają Alt, a ekran blokady nie reaguje na litery.
+```
+adb shell settings get secure keyboard_pin_input > ~/logs/pin.txt
+adb logcat -d -b main | grep -iE "KeyguardKeyEvent|Bouncer|KeyguardPin" >> ~/logs/pin.txt
 ```
 
 ### 12. Bateria
