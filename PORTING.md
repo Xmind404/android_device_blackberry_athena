@@ -52,7 +52,8 @@ w treści i diffach wszystkich łatek).
 
 ## Decyzje wymagające Twojej zgody
 
-- **D1. Audio HAL: przejście z `caf-msm8998` na `caf-sdm660`.** Rekomendacja: TAK. Nowa gałąź
+- **D1 – PRZYJĘTE.** Gałąź `lineage-24.0-caf-sdm660` w Xmind404/android_hardware_qcom_audio (oficjalne 24.0 + 7 poprawek Lineage-BBKey2); w manifeście zmienić revision.
+- ~~D1. Audio HAL:~~ (pierwotny opis) przejście z `caf-msm8998` na `caf-sdm660`.** Rekomendacja: TAK. Nowa gałąź
   `lineage-24.0-caf-sdm660` w `Xmind404/android_hardware_qcom_audio`, zbudowana z oficjalnego
   `LineageOS/lineage-24.0-caf-sdm660` + 7 commitów audio Lineage-BBKey2. Obecna gałąź
   `lineage-24.0-caf-msm8998` zostaje nietknięta. Uzasadnienie: device tree 4.19 był testowany
@@ -63,18 +64,21 @@ w treści i diffach wszystkich łatek).
   `android_packages_apps_LineageParts`, `android_packages_apps_Launcher3`,
   `android_hardware_interfaces`, ewentualnie `android_bootable_recovery`. Mogę je założyć
   sam (import oficjalnego 24.0, jak przy frameworks_base) albo zrobisz to Ty. Diff manifestu niżej.
-- **D3. Znak poziomego flingu w `SyntheticTouchKeypadHandler`** (zasady 7 i 8). Twoja wersja 22.2
+- **D3 – PRZYJĘTE** ([ede3b42](https://github.com/Xmind404/android_frameworks_base/commit/ede3b42)): fling poziomy w kierunku przeciągania.
+- ~~D3. Znak poziomego flingu w `SyntheticTouchKeypadHandler`** (zasady 7 i 8). Twoja wersja 22.2
   ma `hScroll = -deltaX * FLING_SCROLL_FACTOR`, a Lineage-BBKey2 `deltaX * …`. Pozostałe stałe
   (SCROLL_FACTOR 0.0117, TOUCH_SLOP 8, x → 1080, `enqueueInputEvent`) są identyczne. Domyślnie
   portuję wersję Lineage-BBKey2, a Twoją poprawkę dodam dopiero po Twojej zgodzie.
-- **D4. `5fde4034` Domain Verification Auto-Approve.** Bez GMS zatwierdza App Links bez weryfikacji
+- **D4 – ODRZUCONE** (decyzja właściciela).
+- ~~D4. `5fde4034` Domain Verification Auto-Approve.** Bez GMS zatwierdza App Links bez weryfikacji
   domeny, co jest kompromisem bezpieczeństwa (każda aplikacja może przejąć linki https dowolnej
   domeny). Rekomendacja: nie portować albo włączać tylko, gdy brak weryfikatora Google.
 - **D6. `3a077a4a` uprawnienie BlackBerry Hub dla BlackBerry Keyboard.** Framework deklarowałby
   uprawnienie `com.blackberry.pim.permission.READ_MESSAGES` (dangerous) i dopisywał regułę ścieżkową
   do dostawcy treści aplikacji BlackBerry Hub. Przydatne tylko dla BlackBerry Keyboard
   (personalizowane podpowiedzi). Rekomendacja: nie portować, dopóki ktoś faktycznie tego nie potrzebuje.
-- **D5. Opcjonalne:** radio FM (fm-commonsys + RevampedFMRadio), LatinIME (SYM), DownloadProvider
+- **D5 – ODRZUCONE** (FM, Cast, LatinIME, DownloadProvider niepotrzebne).
+- ~~D5. Opcjonalne:~~ radio FM (fm-commonsys + RevampedFMRadio), LatinIME (SYM), DownloadProvider
   (paczki językowe BlackBerry Keyboard), kafelek Cast (`e43c3fd3`, `d4674016`). Domyślnie odłożone.
 
 ## Proponowany diff manifestu (`.repo/local_manifests/local_manifests.xml`)
@@ -140,7 +144,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [ef6d6627](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ef6d6627ca1fb66c328bd2e887bc3350bac4ca2b) | zapaca | IME Switcher: Make Alt+Enter the default | konflikt 4 | IME-switch, krok 5/5 | adapted (scalone w de1c5814e) | [de1c5814e](https://github.com/Xmind404/android_frameworks_base/commit/de1c5814e) |
 | [e77da8f5](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e77da8f59ecea58051a3594f1437af1ffa77036d) | tim-ecoder | adaptive keyboard and button backlight | konflikt 2 | Podświetlenie 2/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [afe701ca](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/afe701cab69a0279aaa623ab35ad7d2d4df8004f) | zapaca | PowerManagerService: Adaptive backlight mod for Luna's dimmer keyboard backlight | konflikt 2 | Podświetlenie 3/12, luna | dropped – luna only | – |
-| [5fde4034](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/5fde403493dd3c26ddc1fcf78dd2a3de8fa5e01b) | zapaca | frameworks_base: Domain Verification Auto-Approve | czysto | Bezpieczeństwo: auto-zatwierdzanie App Links bez GMS | deferred – wymaga Twojej decyzji (osłabia weryfikację domen; z GApps zbędne) | – |
+| [5fde4034](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/5fde403493dd3c26ddc1fcf78dd2a3de8fa5e01b) | zapaca | frameworks_base: Domain Verification Auto-Approve | czysto | Bezpieczeństwo: auto-zatwierdzanie App Links bez GMS | dropped – D4: decyzja właściciela (bez auto-zatwierdzania linków) | – |
 | [0693b591](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0693b5910498372fe40a7b27e01c1ac7a74228e0) | zapaca | hwui: disable bitmap decode telemetry | konflikt 2 | Bateria/telemetria | adapted (StatsUtils 24.0 zmieniony; funkcje puste) | [e44c4aebe](https://github.com/Xmind404/android_frameworks_base/commit/e44c4aebe) |
 | [72f2d1e7](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/72f2d1e7b83415e1a22e15c8eb81fde436f3a2cb) | zapaca | Bluetooth: car-bt-sco-a2dp-reroute patch | czysto | BT: SCO/A2DP w aucie | adapted: setForceUse_Async z intencją brokera zamiast twardego FORCE_NONE | [67d26be49](https://github.com/Xmind404/android_frameworks_base/commit/67d26be49) |
 | [ebdd4d6f](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ebdd4d6f4c633af3763df31c4d518e23ac82abc6) | zapaca | PowerManagerService: Keyboard backlight floor increase and off in daylight | konflikt 2 | Podświetlenie 4/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
@@ -161,9 +165,9 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [ba9b79d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ba9b79d1da0275157a5ba25c829dff5d105c78fb) | zapaca | keyguard: Fix intermittent keyboard PIN delete/enter, support QWERTZ/AZERTY PIN input | konflikt 6 | PIN z klawiatury 2/2 | replaced: przepisane od nowa (mapowanie z KCM, bez trwałego bouncera, SIM PIN/PUK + hasło, przełącznik) | [059d23b16](https://github.com/Xmind404/android_frameworks_base/commit/059d23b16) |
 | [2625ccfd](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/2625ccfdbdddd258127733bc210991855f36c7a3) | zapaca | SettingsProvider: support configurable display density defaults | konflikt 2 | Gęstość ekranu | planned: wymaga forka Settings (bb7ef10) | – |
 | [792be69c](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/792be69c111739652fd3fb1ec9c607f8b26e525a) | zapaca | PowerManager: Match stock keyboard and button backlight timeouts by default | konflikt 2 | Podświetlenie 10/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
-| [e43c3fd3](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e43c3fd3e2d8bd1bf6d6ba8f3a42822bec92bede) | zapaca | SystemUI: Allow Cast tile with Wi-Fi enabled but disconnected | konflikt 4 | Kafelek Cast | deferred – poza listą funkcji, niski priorytet | – |
+| [e43c3fd3](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/e43c3fd3e2d8bd1bf6d6ba8f3a42822bec92bede) | zapaca | SystemUI: Allow Cast tile with Wi-Fi enabled but disconnected | konflikt 4 | Kafelek Cast | dropped – D5: kafelek Cast niepotrzebny | – |
 | [d6f4365a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d6f4365a8c8d131c97fa6034b24b2673a45476ea) | zapaca | PowerManager: Separate keyboard brightness scaling from daylight cutoff | konflikt 2 | Podświetlenie 11/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
-| [d4674016](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d4674016a6fea37ad4e4770aa4f241d6460d528d) | zapaca | SystemUI: Enable Wi-Fi from Cast and show visible startup feedback | konflikt 4 | Kafelek Cast + Wi-Fi (99 plików) | deferred – poza listą funkcji, niski priorytet | – |
+| [d4674016](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d4674016a6fea37ad4e4770aa4f241d6460d528d) | zapaca | SystemUI: Enable Wi-Fi from Cast and show visible startup feedback | konflikt 4 | Kafelek Cast + Wi-Fi (99 plików) | dropped – D5 | – |
 | [11e83906](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/11e83906fd2c86d8efe7de0e748f883260f793e9) | zapaca | PowerManager: avoid gating fixed-keyboard lighting on visibility | konflikt 2 | Podświetlenie 12/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [3049eda0](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3049eda0b6d45aa1c86d8f909ebdcc4be8391357) | zapaca | AnrTimer: prevent system_server from freezing itself | konflikt 2 | AnrTimer: system_server zamraża sam siebie | dropped – fixed upstream (AnrTimer 24.0 nie ma już logiki freezera) | – |
 | [9df04ab0](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/9df04ab019fa4a318a88cd421504efa6887baeb1) | zapaca | audio: keep local call sliders and volume keys on native levels | konflikt 2 | Głośność rozmowy | planned: + Settings 34b8a16 | – |
@@ -206,7 +210,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [930a25c](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/930a25c30a0ca582e19fc0ab216d423060869f55) | zapaca | Aperture: gracefully handle cameras disabled by sensor privacy | konflikt 2 | Aperture | planned: Etap 3 pkt 13 | – |
+| [930a25c](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/930a25c30a0ca582e19fc0ab216d423060869f55) | zapaca | Aperture: gracefully handle cameras disabled by sensor privacy | konflikt 2 | Aperture | adapted (bez rebind przy fokusie; CameraX sam wznawia) | [92b659e](https://github.com/Xmind404/android_packages_apps_Aperture/commit/92b659e) |
 | [bf29375](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/bf293759bc8bb7f68c27dcbeb2616d4f1b3e2b73) | zapaca | Aperture: Improve preview layout on compact BlackBerry displays | konflikt 4 | Aperture: kompaktowy ekran | planned: Etap 3 pkt 13 | – |
 | [51f8932](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/51f8932105c3810ed69a88b3dd72ee8e4624fdd4) | zapaca | Aperture: Match 16:9 photo preview framing to captured images | konflikt 2 | Aperture | planned | – |
 | [6bbafbe](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/6bbafbee319d31fe7b7d485ac947130040d75094) | zapaca | Aperture: Top-align the Scan preview using a 4:3 frame | konflikt 2 | Aperture | planned | – |
@@ -215,7 +219,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [2b238bd](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/2b238bd7a341908d1372ce96d56a12a8be823add) | zapaca | Aperture: Defer camera binding until layout traversal completes | konflikt 2 | Aperture | planned | – |
 | [4e562c7](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/4e562c79ad5828747b73369c57d17a435379f386) | zapaca | Aperture: Label video quality using actual profile dimensions | konflikt 4 | Aperture | planned | – |
 | [a60b0a5](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/a60b0a5a7d35a09a718702019af1c00080bee2fe) | zapaca | Aperture: Add native Photo HDR OFF/ON control | konflikt 7 | Aperture: HDR | planned | – |
-| [44b6709](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/44b67097c29396d7d17c775387f59ce59b1ef0fe) | zapaca | Aperture: reapply camera settings across lifecycle transitions | konflikt 2 | Aperture | planned | – |
+| [44b6709](https://github.com/Lineage-BBKey2/android_packages_apps_Aperture/commit/44b67097c29396d7d17c775387f59ce59b1ef0fe) | zapaca | Aperture: reapply camera settings across lifecycle transitions | konflikt 2 | Aperture | adapted (ponowne applyCaptureRequestOptions przy każdym OPEN) | [be84f72](https://github.com/Xmind404/android_packages_apps_Aperture/commit/be84f72) |
 
 ### android_packages_apps_Settings
 
@@ -251,7 +255,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [fa275a0](https://github.com/Lineage-BBKey2/android_packages_inputmethods_LatinIME/commit/fa275a0ea244de968556b7ea338eb3e2034d4282) | zapaca | LatinIME: Add physical SYM key symbol layout cycling | 3-way | LatinIME SYM | deferred – opcjonalne (używasz athenaKB/Gboard) | – |
+| [fa275a0](https://github.com/Lineage-BBKey2/android_packages_inputmethods_LatinIME/commit/fa275a0ea244de968556b7ea338eb3e2034d4282) | zapaca | LatinIME: Add physical SYM key symbol layout cycling | 3-way | LatinIME SYM | dropped – D5: LatinIME niepotrzebny | – |
 
 ### android_packages_providers_DownloadProvider
 
@@ -269,9 +273,9 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [24201ff](https://github.com/Lineage-BBKey2/android_vendor_qcom_opensource_fm-commonsys/commit/24201ffbdc1c819fe2b4f32971c0d505fe68a918) | zapaca | qcom.fmradio: fix RadioText buffer parsing | czysto | FM | deferred – radio FM poza listą funkcji | – |
-| [132bfbd](https://github.com/Lineage-BBKey2/android_vendor_qcom_opensource_fm-commonsys/commit/132bfbd08e742331e23b978e460d4667869f1d01) | zapaca | fm: Add API to disable RDS group processing | czysto | FM | deferred | – |
-| [65b081c](https://github.com/Lineage-BBKey2/android_vendor_qcom_opensource_fm-commonsys/commit/65b081c694bc5adea69cb6bffea24221bf6844db) | zapaca | FM2: Rename app to FM Radio Legacy | czysto | FM | deferred | – |
+| [24201ff](https://github.com/Lineage-BBKey2/android_vendor_qcom_opensource_fm-commonsys/commit/24201ffbdc1c819fe2b4f32971c0d505fe68a918) | zapaca | qcom.fmradio: fix RadioText buffer parsing | czysto | FM | dropped – D5: radio FM niepotrzebne | – |
+| [132bfbd](https://github.com/Lineage-BBKey2/android_vendor_qcom_opensource_fm-commonsys/commit/132bfbd08e742331e23b978e460d4667869f1d01) | zapaca | fm: Add API to disable RDS group processing | czysto | FM | dropped – D5 | – |
+| [65b081c](https://github.com/Lineage-BBKey2/android_vendor_qcom_opensource_fm-commonsys/commit/65b081c694bc5adea69cb6bffea24221bf6844db) | zapaca | FM2: Rename app to FM Radio Legacy | czysto | FM | dropped – D5 | – |
 
 ### android_frameworks_opt_telephony
 
@@ -283,13 +287,13 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 
 | Źródło | Autor | Tytuł | Próba na 24.0 | Obszar | Plan / status | Commit docelowy |
 |---|---|---|---|---|---|---|
-| [3793efa](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/3793efa60d59cba2fbd0194e6fde8294be07e2d6) | zapaca | sdm660-audio: Routing bugs fix and VOIP call fix | – | Audio sdm660 | planned: po przejściu na caf-sdm660 (decyzja D1) | – |
-| [1ef12c4](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/1ef12c4ca7a4670f5ad2fdcdcd4b8d4cd352ae0a) | zapaca | sdm660-audio: prevent software VA capture from blocking voice calls | – | Audio | planned (D1) | – |
-| [2cb0097](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/2cb009757369223fb8ef168db89d610715f2a3b9) | zapaca | audio: Handle FM tuner capture latency queries | – | Audio FM | planned (D1) | – |
-| [4c5d031](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/4c5d031c5932b07de5802d444fb2424ca316ce4d) | zapaca | audio: use the default capture app type for PCM VoIP | – | Audio VoIP | planned (D1) | – |
-| [1b0c042](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/1b0c04202168fc9acf66f34a3ee99a0d58321d50) | zapaca | audio: support wideband VoIP with calibrated PCM fallback | – | Audio VoIP WB | planned (D1) | – |
-| [20e54f5](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/20e54f52a7c6dba1e7369359171ae35555413eff) | zapaca | audio: keep normal handset gain within its calibration range | – | Audio słuchawka | planned (D1) | – |
-| [5304c3d](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/5304c3df974ce5b1e8453bb46d6a62e4296c2c42) | zapaca | audio: avoid unsupported AAC frame controls on the QTI DSP path | – | Audio AAC | planned (D1) | – |
+| [3793efa](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/3793efa60d59cba2fbd0194e6fde8294be07e2d6) | zapaca | sdm660-audio: Routing bugs fix and VOIP call fix | – | Audio sdm660 | ported na lineage-24.0-caf-sdm660 (D1) | gałąź `lineage-24.0-caf-sdm660` |
+| [1ef12c4](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/1ef12c4ca7a4670f5ad2fdcdcd4b8d4cd352ae0a) | zapaca | sdm660-audio: prevent software VA capture from blocking voice calls | – | Audio | ported na lineage-24.0-caf-sdm660 (D1) | gałąź `lineage-24.0-caf-sdm660` |
+| [2cb0097](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/2cb009757369223fb8ef168db89d610715f2a3b9) | zapaca | audio: Handle FM tuner capture latency queries | – | Audio FM | ported na lineage-24.0-caf-sdm660 (D1) | gałąź `lineage-24.0-caf-sdm660` |
+| [4c5d031](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/4c5d031c5932b07de5802d444fb2424ca316ce4d) | zapaca | audio: use the default capture app type for PCM VoIP | – | Audio VoIP | ported na lineage-24.0-caf-sdm660 (D1) | gałąź `lineage-24.0-caf-sdm660` |
+| [1b0c042](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/1b0c04202168fc9acf66f34a3ee99a0d58321d50) | zapaca | audio: support wideband VoIP with calibrated PCM fallback | – | Audio VoIP WB | adapted: konflikt z upstream VoIP rozwiązany (D1) | gałąź `lineage-24.0-caf-sdm660` |
+| [20e54f5](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/20e54f52a7c6dba1e7369359171ae35555413eff) | zapaca | audio: keep normal handset gain within its calibration range | – | Audio słuchawka | ported na lineage-24.0-caf-sdm660 (D1) | gałąź `lineage-24.0-caf-sdm660` |
+| [5304c3d](https://github.com/Lineage-BBKey2/android_hardware_qcom_audio/commit/5304c3df974ce5b1e8453bb46d6a62e4296c2c42) | zapaca | audio: avoid unsupported AAC frame controls on the QTI DSP path | – | Audio AAC | ported na lineage-24.0-caf-sdm660 (D1) | gałąź `lineage-24.0-caf-sdm660` |
 
 ### android_hardware_qcom_display
 
@@ -381,7 +385,14 @@ starszego stanu Lineage-BBKey2. Faktycznie własne różnice:
 | device sdm660-common | ebe2f24 | `livedisplay_sdm enable_dm` przez `soong_config_set_bool` (24.0 wymaga typu bool) |
 | device sdm660-common | [af4fdf7](https://github.com/Xmind404/android_device_blackberry_sdm660-common/commit/af4fdf7) | usunięty `vendor/lineage/config/device_framework_matrix.xml` (24.0 instaluje `framework_compatibility_matrix.lineage.xml` sam) |
 
-### Aperture – kolejność portu delty Lineage-BBKey2
+### Aperture – stan portu delty Lineage-BBKey2
+
+Zrobione: `930a25c`, `44b6709`. Pozostałe (`bf29375`, `51f8932`, `6bbafbe`, `3b5c9e2`, `d17e805`,
+`4e562c7`, `a60b0a5`) przebudowują układ i podgląd struktury Aperture 22.2 (np. `bindCameraController`,
+`bindGeneration`), której w 24.0 nie ma – wymagają napisania od nowa i weryfikacji na ekranie KEY2
+po pierwszym buildzie.
+
+#### Pierwotny plan kolejności
 
 Po pierwszej udanej kompilacji `m Aperture` (tryb PRO przebudował nakładanie opcji Camera2):
 `930a25c` (prywatność kamery) → `2b238bd` (wiązanie po layoucie) → `44b6709` (ponowne nakładanie
