@@ -45,6 +45,16 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
                 KeyboardTouchpad.SETTING_ENABLED;
         private static final String KEY_KEYBOARD_BACKLIGHT_ENABLED =
                 "keyboard_backlight_enabled";
+        private static final String KEY_TOUCHPAD_SENSITIVITY =
+                "keyboard_touchpad_sensitivity";
+        // Scroll speed multiplier (percent) read by the framework touch keypad handler.
+        private static final String PROP_TOUCHPAD_SENSITIVITY =
+                "persist.vendor.touchkeypad.sensitivity";
+        private static final String KEY_CONVENIENCE_KEY_ACTION = "convenience_key_action";
+        private static final String KEY_DOUBLE_TAP_POWER_ACTION = "double_tap_power_action";
+        private static final String DOUBLE_TAP_POWER_CAMERA = "camera";
+        private static final String DOUBLE_TAP_POWER_WALLET = "wallet";
+        private static final String DOUBLE_TAP_POWER_OFF = "off";
         private static final String KEY_PIN_INPUT =
                 "keyboard_pin_input";
         private static final String KEY_SHOW_IME =
@@ -102,6 +112,31 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
                 touchpadEnabled.setOnPreferenceChangeListener(this);
             }
             updateTouchpadPreference();
+
+            // Keyboard touchpad scroll sensitivity
+            SeekBarPreference sensitivity = findPreference(KEY_TOUCHPAD_SENSITIVITY);
+            if (sensitivity != null) {
+                sensitivity.setValue(SystemProperties.getInt(PROP_TOUCHPAD_SENSITIVITY, 100));
+                sensitivity.setOnPreferenceChangeListener(this);
+            }
+
+            // Convenience key action (handled by KeyHandler in system_server)
+            ListPreference convenienceKey = findPreference(KEY_CONVENIENCE_KEY_ACTION);
+            if (convenienceKey != null) {
+                String action = Settings.Secure.getString(getContext().getContentResolver(),
+                        KeyHandler.SETTING_CONVENIENCE_KEY_ACTION);
+                convenienceKey.setValue(action != null ? action : KeyHandler.ACTION_ASSISTANT);
+                convenienceKey.setSummary(convenienceKey.getEntry());
+                convenienceKey.setOnPreferenceChangeListener(this);
+            }
+
+            // Double press of the power button (AOSP multi-target gesture)
+            ListPreference doubleTapPower = findPreference(KEY_DOUBLE_TAP_POWER_ACTION);
+            if (doubleTapPower != null) {
+                doubleTapPower.setValue(getDoubleTapPowerAction());
+                doubleTapPower.setSummary(doubleTapPower.getEntry());
+                doubleTapPower.setOnPreferenceChangeListener(this);
+            }
 
             // Keyboard backlight master switch
             SwitchPreference backlightEnabled = findPreference(KEY_KEYBOARD_BACKLIGHT_ENABLED);
@@ -296,6 +331,25 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             onTouch.setChecked(!onlyWhenPressed || savedOnTouch);
         }
 
+        private String getDoubleTapPowerAction() {
+            final boolean enabled = Settings.Secure.getInt(getContext().getContentResolver(),
+                    Settings.Secure.DOUBLE_TAP_POWER_BUTTON_GESTURE_ENABLED, 1) == 1;
+            if (!enabled) {
+                return DOUBLE_TAP_POWER_OFF;
+            }
+            return Settings.Secure.getInt(getContext().getContentResolver(),
+                    Settings.Secure.DOUBLE_TAP_POWER_BUTTON_GESTURE, 0) == 1
+                    ? DOUBLE_TAP_POWER_WALLET : DOUBLE_TAP_POWER_CAMERA;
+        }
+
+        private static void updateListSummary(Preference preference, Object newValue) {
+            ListPreference lp = (ListPreference) preference;
+            int idx = lp.findIndexOfValue((String) newValue);
+            if (idx >= 0) {
+                lp.setSummary(lp.getEntries()[idx]);
+            }
+        }
+
         private void updateTouchpadPreference() {
             SwitchPreference touchpadEnabled =
                     findPreference(KEY_KEYBOARD_TOUCHPAD_ENABLED);
@@ -326,6 +380,30 @@ public class DeviceSettingsActivity extends CollapsingToolbarBaseActivity {
             switch (key) {
                 case KEY_KEYBOARD_TOUCHPAD_ENABLED: {
                     KeyboardTouchpad.setEnabled(getContext(), (boolean) newValue);
+                    return true;
+                }
+                case KEY_TOUCHPAD_SENSITIVITY: {
+                    SystemProperties.set(PROP_TOUCHPAD_SENSITIVITY,
+                            String.valueOf((int) newValue));
+                    return true;
+                }
+                case KEY_CONVENIENCE_KEY_ACTION: {
+                    Settings.Secure.putString(getContext().getContentResolver(),
+                            KeyHandler.SETTING_CONVENIENCE_KEY_ACTION, (String) newValue);
+                    updateListSummary(preference, newValue);
+                    return true;
+                }
+                case KEY_DOUBLE_TAP_POWER_ACTION: {
+                    final String value = (String) newValue;
+                    Settings.Secure.putInt(getContext().getContentResolver(),
+                            Settings.Secure.DOUBLE_TAP_POWER_BUTTON_GESTURE_ENABLED,
+                            DOUBLE_TAP_POWER_OFF.equals(value) ? 0 : 1);
+                    if (!DOUBLE_TAP_POWER_OFF.equals(value)) {
+                        Settings.Secure.putInt(getContext().getContentResolver(),
+                                Settings.Secure.DOUBLE_TAP_POWER_BUTTON_GESTURE,
+                                DOUBLE_TAP_POWER_WALLET.equals(value) ? 1 : 0);
+                    }
+                    updateListSummary(preference, newValue);
                     return true;
                 }
                 case KEY_KEYBOARD_BACKLIGHT_ENABLED: {

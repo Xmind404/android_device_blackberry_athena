@@ -3,7 +3,8 @@
      SPDX-FileCopyrightText: 2026 The LineageOS Project
      SPDX-License-Identifier: Apache-2.0
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:key="keyboard_category"
@@ -15,6 +16,18 @@
             android:summary="@string/keyboard_touchpad_enabled_summary"
             android:persistent="false"
             android:defaultValue="true" />
+
+        <SeekBarPreference
+            android:key="keyboard_touchpad_sensitivity"
+            android:title="@string/keyboard_touchpad_sensitivity_title"
+            android:summary="@string/keyboard_touchpad_sensitivity_summary"
+            android:dependency="keyboard_touchpad_enabled"
+            android:max="200"
+            app:min="50"
+            app:seekBarIncrement="10"
+            app:showSeekBarValue="true"
+            android:persistent="false"
+            android:defaultValue="100" />
 
         <SwitchPreference
             android:key="keyboard_pin_input"
@@ -46,6 +59,28 @@
             android:entryValues="@array/keyboard_hardware_layout_values"
             android:persistent="false"
             android:defaultValue="auto" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="keys_category"
+        android:title="@string/keys_category">
+
+        <ListPreference
+            android:key="convenience_key_action"
+            android:title="@string/convenience_key_action_title"
+            android:entries="@array/convenience_key_action_entries"
+            android:entryValues="@array/convenience_key_action_values"
+            android:persistent="false"
+            android:defaultValue="assistant" />
+
+        <ListPreference
+            android:key="double_tap_power_action"
+            android:title="@string/double_tap_power_action_title"
+            android:entries="@array/double_tap_power_action_entries"
+            android:entryValues="@array/double_tap_power_action_values"
+            android:persistent="false"
+            android:defaultValue="camera" />
 
     </PreferenceCategory>
 

@@ -83,4 +83,18 @@
     <string name="legacy_app_google_play_title">Zobacz w Google Play</string>
     <string name="legacy_app_mirror_title">Zainstaluj APK z Archive.org</string>
     <string name="legacy_app_no_link_handler">Nie można otworzyć Google Play. Zainstaluj lub włącz Sklep Google Play albo użyj pobierania APK.</string>
+
+    <string name="keyboard_touchpad_sensitivity_title">Czułość dotyku klawiatury</string>
+    <string name="keyboard_touchpad_sensitivity_summary">Szybkość przewijania dotykiem klawiatury w procentach (100 = domyślnie jak w BlackBerry)</string>
+
+    <string name="keys_category">Klawisze</string>
+    <string name="convenience_key_action_title">Klawisz Convenience</string>
+    <string name="convenience_key_assistant">Asystent (AI)</string>
+    <string name="convenience_key_camera">Aparat</string>
+    <string name="convenience_key_torch">Latarka</string>
+    <string name="convenience_key_nothing">Nic nie rób</string>
+    <string name="double_tap_power_action_title">Dwukrotne naciśnięcie zasilania</string>
+    <string name="double_tap_power_camera">Otwórz aparat</string>
+    <string name="double_tap_power_wallet">Otwórz portfel</string>
+    <string name="double_tap_power_off">Nic nie rób</string>
 </resources>

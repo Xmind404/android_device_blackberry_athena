@@ -83,4 +83,18 @@
     <string name="legacy_app_google_play_title">View on Google Play</string>
     <string name="legacy_app_mirror_title">Install APK from Archive.org</string>
     <string name="legacy_app_no_link_handler">Unable to open Google Play. Install or enable the Google Play Store, or use the APK download option instead.</string>
+
+    <string name="keyboard_touchpad_sensitivity_title">Keyboard touchpad sensitivity</string>
+    <string name="keyboard_touchpad_sensitivity_summary">Scrolling speed of the keyboard touchpad, in percent (100 = BlackBerry default)</string>
+
+    <string name="keys_category">Keys</string>
+    <string name="convenience_key_action_title">Convenience key</string>
+    <string name="convenience_key_assistant">Assistant (AI)</string>
+    <string name="convenience_key_camera">Camera</string>
+    <string name="convenience_key_torch">Flashlight</string>
+    <string name="convenience_key_nothing">Do nothing</string>
+    <string name="double_tap_power_action_title">Double-press power button</string>
+    <string name="double_tap_power_camera">Open camera</string>
+    <string name="double_tap_power_wallet">Open wallet</string>
+    <string name="double_tap_power_off">Do nothing</string>
 </resources>

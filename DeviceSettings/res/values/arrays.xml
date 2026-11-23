@@ -33,4 +33,30 @@
         <item>30000</item>
         <item>60000</item>
     </string-array>
+
+    <string-array name="convenience_key_action_entries">
+        <item>@string/convenience_key_assistant</item>
+        <item>@string/convenience_key_camera</item>
+        <item>@string/convenience_key_torch</item>
+        <item>@string/convenience_key_nothing</item>
+    </string-array>
+
+    <string-array name="convenience_key_action_values" translatable="false">
+        <item>assistant</item>
+        <item>camera</item>
+        <item>torch</item>
+        <item>nothing</item>
+    </string-array>
+
+    <string-array name="double_tap_power_action_entries">
+        <item>@string/double_tap_power_camera</item>
+        <item>@string/double_tap_power_wallet</item>
+        <item>@string/double_tap_power_off</item>
+    </string-array>
+
+    <string-array name="double_tap_power_action_values" translatable="false">
+        <item>camera</item>
+        <item>wallet</item>
+        <item>off</item>
+    </string-array>
 </resources>
