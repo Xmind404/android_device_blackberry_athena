@@ -23,9 +23,9 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 11 | PIN / hasło blokady z klawiatury | not started | `c87cf219`, `ba9b79d1` (adapted) |
 | 12 | Bateria (power_profile, deep sleep, cpufreq, ChargingControl) | not started | `0693b591` |
 | 13 | Aperture: spacja = migawka, touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, ostrość) | not started | + 10 commitów Aperture Lineage-BBKey2 |
-| 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, start/stop wideo) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor athena 74d38bf, device 99910ba |
-| 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor athena c81a529 |
-| 16 | Animacja rozruchu BlackBerry zamiast LineageOS | implemented – needs device test | vendor athena f6e4bb0, device e8617d5 |
+| 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, ostrość, start/stop wideo, klawisze IME, dok, Trusted, ładowanie bezprzewodowe) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
+| 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor/blackberry/media 0b007b8 |
+| 16 | Animacja rozruchu BlackBerry zamiast LineageOS | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
 
 ## Plan testów (komendy uzupełniam w miarę implementacji)
 

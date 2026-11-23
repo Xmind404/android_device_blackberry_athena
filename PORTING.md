@@ -108,6 +108,20 @@ Uwaga: Trebuchet z 22.2 w LineageOS 24.0 to `packages/apps/Launcher3`
 (`LineageOS/android_packages_apps_Launcher3`). Recovery dojdzie do manifestu dopiero wtedy,
 gdy w Etapie 2c okaże się, że 24.0 nie naprawia `1048d83`.
 
+### Repo z mediami BlackBerry (wymaga wpisu w manifeście)
+
+`Xmind404/android_vendor_blackberry_media` (prywatne, gałąź `lineage-24.0`, ścieżka `vendor/blackberry/media`):
+dźwięki, tapety i animacja rozruchu. Device tree odwołuje się do niego warunkowo, więc bez wpisu build
+przechodzi z dźwiękami AOSP i animacją Lineage.
+
+```diff
++    <project
++        name="Xmind404/android_vendor_blackberry_media"
++        path="vendor/blackberry/media"
++        remote="github"
++        revision="lineage-24.0" />
+```
+
 ## Delta Lineage-BBKey2 → plan na 24.0
 
 ### android_frameworks_base
