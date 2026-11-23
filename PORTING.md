@@ -114,7 +114,7 @@ gdy w Etapie 2c okaże się, że 24.0 nie naprawia `1048d83`.
 
 ### Repo z mediami BlackBerry (wymaga wpisu w manifeście)
 
-`Xmind404/android_vendor_blackberry_media` (prywatne, gałąź `lineage-24.0`, ścieżka `vendor/blackberry/media`):
+`Xmind404/android_vendor_blackberry_media` (publiczne, gałąź `lineage-24.0`, ścieżka `vendor/blackberry/media`):
 dźwięki, tapety i animacja rozruchu. Device tree odwołuje się do niego warunkowo, więc bez wpisu build
 przechodzi z dźwiękami AOSP i animacją Lineage.
 
@@ -156,7 +156,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [8a223c98](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8a223c985d1161f9a893cacec337512583c930b6) | zapaca | power: Add independent keyboard backlight controls, fix light state bugs | konflikt 2 | Podświetlenie 8/12 | adapted (seria PMS) | [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [76605e9e](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/76605e9eb117a24dd10d2384200e9c32bc539226) | zapaca | base: add light-on-touch and independent keyboard scrolling capability | konflikt 12 | Touch-scroll 4/5 + podświetlenie 9/12 | adapted: ViewRootImpl → f7b9f29bb, PMS/JNI → e5ca7961c | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb), [e5ca7961c](https://github.com/Xmind404/android_frameworks_base/commit/e5ca7961c) |
 | [790cd2ba](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/790cd2bada637fa84cc810dc9bb49c991863cde1) | zapaca | ViewRootImpl: avoid focus changes from touch keypad input | czysto | Touch-scroll 5/5 | ported (scalone w f7b9f29bb) | [f7b9f29bb](https://github.com/Xmind404/android_frameworks_base/commit/f7b9f29bb) |
-| [3a077a4a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3a077a4ac10f312945256d7157d2f7235e7cf2aa) | zapaca | base: Restore BlackBerry Hub message personalization access | konflikt 2 | BlackBerry Hub READ_MESSAGES | deferred – decyzja D6 (kompromis bezpieczeństwa, tylko BlackBerry Keyboard) | – |
+| [3a077a4a](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/3a077a4ac10f312945256d7157d2f7235e7cf2aa) | zapaca | base: Restore BlackBerry Hub message personalization access | konflikt 2 | BlackBerry Hub READ_MESSAGES | dropped – D6: BlackBerry Hub/Keyboard nieużywane | – |
 | [d44840d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/d44840d16bd33867e3d0b9c45cb9ecec1c434b67) | zapaca | NetworkPolicy: refresh rules for adopted-storage apps | czysto | NetworkPolicy, adopted storage | ported (24.0 nie zawiera poprawki) | [dfdb0a3fd](https://github.com/Xmind404/android_frameworks_base/commit/dfdb0a3fd) |
 | [ba9b79d1](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/ba9b79d1da0275157a5ba25c829dff5d105c78fb) | zapaca | keyguard: Fix intermittent keyboard PIN delete/enter, support QWERTZ/AZERTY PIN input | konflikt 6 | PIN z klawiatury 2/2 | replaced: przepisane od nowa (mapowanie z KCM, bez trwałego bouncera, SIM PIN/PUK + hasło, przełącznik) | [059d23b16](https://github.com/Xmind404/android_frameworks_base/commit/059d23b16) |
 | [2625ccfd](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/2625ccfdbdddd258127733bc210991855f36c7a3) | zapaca | SettingsProvider: support configurable display density defaults | konflikt 2 | Gęstość ekranu | planned: wymaga forka Settings (bb7ef10) | – |
@@ -169,7 +169,7 @@ przechodzi z dźwiękami AOSP i animacją Lineage.
 | [9df04ab0](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/9df04ab019fa4a318a88cd421504efa6887baeb1) | zapaca | audio: keep local call sliders and volume keys on native levels | konflikt 2 | Głośność rozmowy | planned: + Settings 34b8a16 | – |
 | [dca385ec](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/dca385ec755460f3aa371e31a80f329378eec1c9) | zapaca | SystemUI: update navigation services when the on-screen bar changes | konflikt 2 | Navbar on-screen | planned: + LineageParts 860b45b + Launcher3 | – |
 | [0319a4ee](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/0319a4eef14a60490132b2de683e4c3f00ad34f7) | zapaca | Input: Select family-compatible BlackBerry keyboard overlays | czysto | Wybór KCM BlackBerry | ported | [c1b93d021](https://github.com/Xmind404/android_frameworks_base/commit/c1b93d021) |
-| [8013a1ed](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8013a1ed450f6b473227d83a6a8102971cfe41c9) | zapaca | InputMethodService: Work around legacy BlackBerry Alt overrides | czysto | BlackBerry Keyboard Alt | ported | [851c570f1](https://github.com/Xmind404/android_frameworks_base/commit/851c570f1) |
+| [8013a1ed](https://github.com/Lineage-BBKey2/android_frameworks_base/commit/8013a1ed450f6b473227d83a6a8102971cfe41c9) | zapaca | InputMethodService: Work around legacy BlackBerry Alt overrides | czysto | BlackBerry Keyboard Alt | dropped – cofnięte (BlackBerry Keyboard nieużywany; athenaKB instalowany ręcznie) | [19fdb6e51](https://github.com/Xmind404/android_frameworks_base/commit/19fdb6e51) |
 
 ### android_frameworks_native
 
