@@ -15,7 +15,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 5a | Klawisze fizyczne (Alt, Shift, Sym, Convenience) | in progress (overlay KCM, Alt w BB Keyboard: implemented – needs device test) | `0319a4ee`, `8013a1ed`, native EventHub, IME switcher |
 | 5b | Touch na klawiaturze: scroll | implemented – needs device test | `628fd7e7`, `ddf8eec1`, `dc4ea330`, `76605e9e`, `790cd2ba`, native `8eeea09` |
 | 5c | Podświetlenie klawiatury i przycisków | implemented – needs device test (adaptacja wg czujnika światła: Etap 3 pkt 6) | seria PMS (12 commitów), kernel `656bd38`, `92a1143` |
-| 6 | Kafelek QS „Dotyk klawiatury” (ikona: SVG touchpada z CLAUDE.md pkt 6) + Ustawienia → System → „BlackBerry Keyboard” | not started | DeviceSettings (istnieje), `0f15676a` (replaced) |
+| 6 | Kafelek QS „Dotyk klawiatury” (ikona SVG) + Ustawienia → System → „BlackBerry Keyboard” (pl/en), adaptacja wg jasności wyświetlacza (czujnik światła przy auto-jasności) | implemented – needs device test | device f364896, e73377b; base 040eebe9d |
 | 7 | Automatyczny wybór KCM (QWERTY/QWERTZ/AZERTY) | not started | `0319a4ee`, native `fb827f8` |
 | 8 | Fingerprint na spacji | not started | vendor athena (Goodix AIDL) |
 | 9 | Latarka dual-tone (+ panel suwaków) | not started | – |
@@ -96,6 +96,18 @@ w motywie ciemnym ta sama.
 ```
 adb shell ls -l /product/media/bootanimation.zip /product/media/bootanimation-dark.zip > ~/logs/bootanim.txt
 adb shell sha1sum /product/media/bootanimation.zip >> ~/logs/bootanim.txt   # 9802fee4b5e3f997f1872e51af3f709795d4aadf
+```
+
+### 6. Kafelek QS i strona BlackBerry Keyboard
+Oczekiwane: w edycji panelu QS jest kafelek „Dotyk klawiatury” z ikoną klawiatury ze strzałkami;
+dotknięcie włącza/wyłącza touchpad (scroll znika/wraca), długie przytrzymanie otwiera stronę
+„BlackBerry Keyboard”; stan zgodny ze stroną i po restarcie. Przy auto-jasności podświetlenie
+klawiatury ciemnieje w ciemnym pokoju i gaśnie w jasnym świetle (gdy włączone „Wyłączaj przy jasnym ekranie”).
+```
+adb shell getprop persist.vendor.touchkeypad.disabled > ~/logs/kbsettings.txt
+adb shell cat /sys/devices/touch_keypad/turn_off >> ~/logs/kbsettings.txt
+adb shell settings get secure keyboard_backlight_enabled >> ~/logs/kbsettings.txt
+adb shell dumpsys power | grep -E "mDisplayBrightnessFraction|mKeyboard" >> ~/logs/kbsettings.txt
 ```
 
 ### 12. Bateria
