@@ -66,4 +66,10 @@ PRODUCT_SOURCE_ROOT_DIRS += \
     -system/software_defined_vehicle \
     -test \
     -trusty
+
+# Keep the soong_build plugins from the skipped directories: modules elsewhere
+# (e.g. art/test) use the module types they register. A longer prefix wins.
+PRODUCT_SOURCE_ROOT_DIRS += \
+    device/google/cuttlefish/build \
+    test/app_compat/csuite/tools/csuite_test
 endif
