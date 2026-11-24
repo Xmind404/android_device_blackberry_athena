@@ -36,3 +36,34 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 # OTA Updater
 PRODUCT_SYSTEM_PROPERTIES += \
     lineage.updater.uri=https://raw.githubusercontent.com/Xmind404/distribution/lineage-24.0/{device}.json
+
+# Low-memory build hosts (opt-in, ATHENA_LOW_MEMORY_BUILD=true in the environment).
+# Soong analysis of the whole tree needs well over 40 GB of RAM+swap. Skip the
+# Android.bp files of test suites, automotive and other devices, none of which end
+# up in the athena images. Requires ALLOW_MISSING_DEPENDENCIES (BoardConfig.mk),
+# since test modules elsewhere still name modules from these directories.
+ifeq ($(ATHENA_LOW_MEMORY_BUILD),true)
+PRODUCT_SOURCE_ROOT_DIRS += \
+    -bionic/benchmarks \
+    -bionic/tests \
+    -cts \
+    -device/generic/car \
+    -device/generic/goldfish \
+    -device/generic/trusty \
+    -device/google \
+    -frameworks/base/core/tests \
+    -frameworks/base/libs/WindowManager/Shell/tests \
+    -frameworks/base/services/tests \
+    -frameworks/base/tests \
+    -frameworks/rs/tests \
+    -packages/modules/AdServices/adservices/tests \
+    -packages/modules/AdServices/sdksandbox/tests \
+    -packages/modules/Permission/tests \
+    -packages/modules/Virtualization/tests \
+    -packages/services/Car \
+    -platform_testing \
+    -prebuilts/vndk \
+    -system/software_defined_vehicle \
+    -test \
+    -trusty
+endif
