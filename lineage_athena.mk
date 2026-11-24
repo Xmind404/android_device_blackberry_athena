@@ -72,4 +72,20 @@ PRODUCT_SOURCE_ROOT_DIRS += \
 PRODUCT_SOURCE_ROOT_DIRS += \
     device/google/cuttlefish/build \
     test/app_compat/csuite/tools/csuite_test
+
+# Keep the files that define defaults, teams and licenses still referenced from
+# parsed directories; those references are not covered by
+# ALLOW_MISSING_DEPENDENCIES.
+PRODUCT_SOURCE_ROOT_DIRS += \
+    cts/Android.bp \
+    packages/modules/AdServices/adservices/tests/test-util/Android.bp \
+    packages/services/Car/cpp/car_binder_lib/largeParcelable/Android.bp \
+    packages/services/Car/cpp/power/client/Android.bp \
+    packages/services/Car/cpp/vhal/client/Android.bp \
+    packages/services/Car/cpp/watchdog/stable_server/Android.bp \
+    packages/services/Car/teams/Android.bp \
+    platform_testing/libraries/motion/Android.bp \
+    platform_testing/libraries/rdroidtest/Android.bp \
+    system/software_defined_vehicle/platform/tracing/Android.bp \
+    trusty/kernel/Android.bp
 endif
