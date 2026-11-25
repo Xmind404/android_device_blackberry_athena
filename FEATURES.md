@@ -12,7 +12,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 2 | GPS | not started | – |
 | 3 | Ekran (panel, jasność, obrót, CABL) | not started | display: import = czubek Lineage-BBKey2 |
 | 4 | Bluetooth (A2DP/HFP/LE, poprawki Lineage-BBKey2) | not started | `01d8bdc`, `cc2ba40`, `6560862`, `72f2d1e7`, `9aa4ece`, `db18583` |
-| 5a | Klawisze fizyczne (Alt, Shift, Sym, Convenience) | in progress (overlay KCM, Alt w BB Keyboard: implemented – needs device test) | `0319a4ee`, `8013a1ed`, native EventHub, IME switcher |
+| 5a | Klawisze fizyczne (Alt, Shift, Sym, Convenience) | implemented – needs device test (overlay KCM; obejście Alt dla BlackBerry Keyboard usunięte w base 19fdb6e) | `0319a4ee`, `8013a1ed`, native EventHub, IME switcher |
 | 5b | Touch na klawiaturze: scroll | implemented – needs device test | `628fd7e7`, `ddf8eec1`, `dc4ea330`, `76605e9e`, `790cd2ba`, native `8eeea09` |
 | 5c | Podświetlenie klawiatury i przycisków | implemented – needs device test (adaptacja wg czujnika światła: Etap 3 pkt 6) | seria PMS (12 commitów), kernel `656bd38`, `92a1143` |
 | 6 | Kafelek QS „Dotyk klawiatury” (ikona SVG) + Ustawienia → System → „BlackBerry Keyboard” (pl/en), adaptacja wg jasności wyświetlacza (czujnik światła przy auto-jasności) | implemented – needs device test | device f364896, e73377b; base 040eebe9d |
@@ -22,7 +22,7 @@ Wyniki testów zbieram przy najbliższym buildzie. Logi zapisuj do `~/logs/<funk
 | 10 | PIN SIM (i PUK) z klawiatury, także przy losowym układzie PIN | implemented – needs device test (cyfry z KCM bez Alt, przełącznik keyboard_pin_input) | base 059d23b16 |
 | 11 | PIN / hasło blokady z klawiatury (pierwszy klawisz na ekranie blokady otwiera bouncer i nie przepada) | implemented – needs device test; Compose bouncer (scene_container) nieobsługiwany, flaga wyłączona w cp2a | base 059d23b16 |
 | 12 | Bateria: power_profile 3500 mAh (OK), deep sleep włączany po starcie (post_boot, OK), schedutil 4.19 (OK), limit ładowania (Lineage ChargingControl), wyłączona telemetria hwui; podświetlenie gaśnie poza AWAKE | implemented – needs device measurement | sdm660-common d744aa2, base e44c4aebe, e5ca7961c |
-| 13 | Aperture: spacja = migawka (start/stop w wideo), touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, K, MF z zakresów CameraCharacteristics) | implemented – needs compile + device test; 10 poprawek Lineage-BBKey2 jeszcze do portu | Aperture f0bfc79, 374888b, e294a0d |
+| 13 | Aperture: spacja = migawka (start/stop w wideo), touchpad oś X = zoom, zapis na microSD, tryby PRO · ZDJĘCIE · WIDEO · SKANER (PRO: ISO, czas, EV, WB, K, MF z zakresów CameraCharacteristics) | implemented – needs compile + device test; 7 poprawek Lineage-BBKey2 jeszcze do portu (PORTING.md) | Aperture f0bfc79, 374888b, e294a0d |
 | 14 | Dźwięki systemowe BlackBerry (klik, blokada/odblokowanie, słaba bateria, migawka/zrzut, ostrość, start/stop wideo, klawisze IME, dok, Trusted, ładowanie bezprzewodowe) + dzwonki, powiadomienia, alarmy | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
 | 15 | Tapety BlackBerry (138, 10 kategorii) w „Tapety i styl” | implemented – needs device test | vendor/blackberry/media 0b007b8 |
 | 16 | Animacja rozruchu BlackBerry zamiast LineageOS | implemented – needs device test | vendor/blackberry/media 0b007b8, device 843ac5b |
