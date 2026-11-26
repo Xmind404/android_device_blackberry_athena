@@ -97,13 +97,15 @@ PRODUCT_SOURCE_ROOT_DIRS += \
 #  - jsonlib: protologtool, run on services and WindowManager Shell
 #  - libvts_vintf_test_common: assemble_vintf, builds the VINTF manifests
 #  - android.car-stubs (car-lib with its aconfig, builtin and internal-dep
-#    libraries): compile-time library of PermissionController
+#    libraries, plus the finalized car API files its metalava step compares
+#    against): compile-time library of PermissionController
 PRODUCT_SOURCE_ROOT_DIRS += \
     cts/libs/json \
     packages/services/Car/aconfig \
     packages/services/Car/car-builtin-lib \
     packages/services/Car/car-lib \
     packages/services/Car/libs/car-internal-dep-lib \
+    packages/services/Car/prebuilts \
     platform_testing/libraries/motion/compose/values \
     test/vts-testcase/hal/treble/vintf/libvts_vintf_test_common
 endif
