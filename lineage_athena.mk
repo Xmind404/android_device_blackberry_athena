@@ -88,4 +88,22 @@ PRODUCT_SOURCE_ROOT_DIRS += \
     platform_testing/libraries/rdroidtest/Android.bp \
     system/software_defined_vehicle/platform/tracing/Android.bp \
     trusty/kernel/Android.bp
+
+# Keep the libraries from skipped directories that modules in the images or
+# host tools used to build them depend on. ALLOW_MISSING_DEPENDENCIES turns
+# such a gap into a failing rule that only shows up in the ninja phase.
+#  - PlatformMotionTestingComposeValues: SystemUI (PlatformComposeCore,
+#    mechanics-compose)
+#  - jsonlib: protologtool, run on services and WindowManager Shell
+#  - libvts_vintf_test_common: assemble_vintf, builds the VINTF manifests
+#  - android.car-stubs (car-lib with its aconfig, builtin and internal-dep
+#    libraries): compile-time library of PermissionController
+PRODUCT_SOURCE_ROOT_DIRS += \
+    cts/libs/json \
+    packages/services/Car/aconfig \
+    packages/services/Car/car-builtin-lib \
+    packages/services/Car/car-lib \
+    packages/services/Car/libs/car-internal-dep-lib \
+    platform_testing/libraries/motion/compose/values \
+    test/vts-testcase/hal/treble/vintf/libvts_vintf_test_common
 endif
