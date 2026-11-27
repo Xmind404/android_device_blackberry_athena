@@ -99,8 +99,12 @@ PRODUCT_SOURCE_ROOT_DIRS += \
 #  - android.car-stubs (car-lib with its aconfig, builtin and internal-dep
 #    libraries, plus the finalized car API files its metalava step compares
 #    against): compile-time library of PermissionController
+#  - MicrodroidExitNativeLib: JNI library of the com.android.virt APEX when
+#    RELEASE_AVF_ENABLE_ADVANCE_MULTITENANCY is set (it is in 24.0); the
+#    APEX also carries service-virtualization for system_server
 PRODUCT_SOURCE_ROOT_DIRS += \
     cts/libs/json \
+    packages/modules/Virtualization/tests/testapk \
     packages/services/Car/aconfig \
     packages/services/Car/car-builtin-lib \
     packages/services/Car/car-lib \
