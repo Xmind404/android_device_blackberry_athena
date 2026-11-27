@@ -1,13 +1,13 @@
 # HANDOFF.md: stan prac i zadania dla następnej sesji Claude
 
-Stan na 2026-11-25. Drzewo `~/android/LineageOS_24` jest kasowane i synchronizowane od nowa.
-Wszystkie commity są na GitHubie (Xmind404). Ten plik mówi, **co odtworzyć, co sprawdzić i co
-zrobić dalej**. Szczegóły: `PORTING.md` (delta Lineage-BBKey2, decyzje D1–D6) i `FEATURES.md`
-(funkcje, statusy, testy na telefonie).
+Stan na 2026-11-27. Wszystkie commity są na GitHubie (Xmind404), drzewo i local manifest są
+zgodne z GitHubem (sprawdzone dla wszystkich 13 repo). Ten plik mówi, **co odtworzyć, co
+sprawdzić i co zrobić dalej**. Szczegóły: `PORTING.md` (delta Lineage-BBKey2, decyzje D1–D6) i
+`FEATURES.md` (funkcje, statusy, testy na telefonie).
 
-> **Najważniejsze: nic z tego kodu nie zostało jeszcze skompilowane.** Żaden `m nothing` ani
-> `m bacon` nie doszedł do końca, bo analiza Soong nie mieści się w pamięci tego komputera
-> (sekcja 2). Pierwszy udany build na pewno pokaże błędy kompilacji do poprawienia (sekcja 3).
+> **Stan builda:** w trybie `ATHENA_LOW_MEMORY_BUILD=true` analiza Soong przechodzi na tym
+> komputerze, a `m bacon` doszedł do ok. 65% ostatniej fazy (zostało ~3,7 tys. kroków).
+> Naprawione błędy i wnioski: sekcja 2a. Na telefonie nic jeszcze nie było testowane.
 
 ---
 
@@ -18,8 +18,10 @@ zrobić dalej**. Szczegóły: `PORTING.md` (delta Lineage-BBKey2, decyzje D1–D
 2. Sprawdź konto: `git config user.name`, `git config user.email`, `gh auth status` (Xmind404).
 3. Pamiętaj o pułapce powłoki narzędzia Bash: **przed `source build/envsetup.sh` zawsze
    `unset -f grep find pkill;`**, inaczej `breakfast`/`lunch` się wywraca.
-4. Nie uruchamiaj `m bacon` ani `repo sync`. Robi to właściciel. Wolno ci uruchamiać `m nothing`
-   i buildy pojedynczych modułów, ale lokalnie i tak nie przejdą analizy (sekcja 2).
+4. Nie uruchamiaj `m bacon` ani `repo sync`. Robi to właściciel. Pełne `m nothing` z narzędzia
+   Bash jest zabijane przy braku pamięci, ale gdy analiza Soong jest aktualna (od ostatniego
+   builda właściciela zmieniły się tylko źródła, nie `.bp`/`.mk`), pojedyncze cele budują się w
+   minutach: `m selinux_policy`, `m <moduł>`, `m MODULES-IN-device-blackberry` (sekcja 2a).
 
 ## 1. Odtworzenie drzewa (robi właściciel)
 
@@ -79,7 +81,7 @@ m bacon -j2 2>&1 | tee ~/logs/bacon-$(date +%H%M%S).txt
 Sukces = kod wyjścia 0 **i** `build completed successfully` w tym samym logu.
 
 **Do sprawdzenia przy pierwszym buildzie z przełącznikiem:**
-- [ ] Czy analiza przechodzi wczesne mutatory. Dotąd naprawione: brak pluginu `csuite_test`
+- [x] Czy analiza przechodzi wczesne mutatory (tak, 2026-11-26). Dotąd naprawione: brak pluginu `csuite_test`
       (przywrócony katalog pluginu) i odwołania `default_team` do `packages/services/Car/teams`
       (przywrócone pliki z defaults/teams/licencjami).
       Gdy pojawi się `depends on skipped module` albo `unrecognized module type`:
@@ -88,13 +90,48 @@ Sukces = kod wyjścia 0 **i** `build completed successfully` w tym samym logu.
       ```
       Ścieżki z wyniku dopisz (bez `-`) do listy w `lineage_athena.mk`. Plugin (`unrecognized
       module type`) znajdziesz przez `grep -rl 'pluginFor' <wykluczony katalog>`.
-- [ ] Ile pamięci zajmuje `soong_build` (`ps -o rss,etime -C soong_build`, `free -m`, swap).
+- [x] (mieści się w RAM + swap w trybie low-memory) Ile pamięci zajmuje `soong_build` (`ps -o rss,etime -C soong_build`, `free -m`, swap).
       Jeśli i tak przekroczy RAM + 64 GB swapu, zostaje build na maszynie z ≥ 64 GB RAM
       (np. serwer w chmurze na kilka godzin).
-- [ ] Czy po analizie Kati/Make nie wywraca się na `Android.mk` z pominiętych katalogów.
-- [ ] Czy w fazie kompilacji nie brakuje modułu, który faktycznie trafia do obrazu
+- [x] (nie wywraca się) Czy po analizie Kati/Make nie wywraca się na `Android.mk` z pominiętych katalogów.
+- [x] (4 przypadki naprawione, sekcja 2a) Czy w fazie kompilacji nie brakuje modułu, który faktycznie trafia do obrazu
       (`ALLOW_MISSING_DEPENDENCIES` przesuwa taki błąd na moment budowania). Wtedy usuń
       odpowiedni wpis z listy wykluczeń.
+
+## 2a. Przebieg pierwszego builda (2026-11-26/27): naprawione błędy i wnioski
+
+Każdy błąd poniżej zatrzymywał `m bacon`; wszystkie poprawki są wypchnięte.
+
+| Błąd | Przyczyna | Commit |
+|---|---|---|
+| `PlatformComposeCore missing dependencies: PlatformMotionTestingComposeValues` | tryb low-memory pomijał katalogi z zależnościami obrazu | athena `7b39a38` |
+| `android.car-stub-docs missing dependencies: android.car.api.combined.*` | brak `packages/services/Car/prebuilts` | athena `5fdd973` |
+| `com.android.virt missing dependencies: MicrodroidExitNativeLib` | `RELEASE_AVF_ENABLE_ADVANCE_MULTITENANCY=true` dołącza lib z `Virtualization/tests/testapk` | athena `a0d367a` |
+| metalava `ReferencesHidden` w `InputMethodManager.dispatchInputEvent` | helper wstawiony między javadoc z `@hide` a metodę | frameworks/base `73992f4` (+ `4ce8952` javadoc w PMS) |
+| `duplicate entry for genfs entry ... camera@0/video3/wakeup` | duplikaty z `sepolicy-legacy-um` | sdm660-common `997d569` |
+| `sepolicy_test`: `gx_fpd_data_file` bez `core_data_file_type` | ścieżki Goodix poza `/data/vendor` | sdm660-common `84f1570` |
+| `aapt2 link: unknown option '--no-crunch'` | flaga kroku compile w `aaptflags` | vendor/blackberry/media `accf82e` |
+| Doze: `cannot find symbol doze_settings_help_*` | upstream usunął napisy okna pomocy | sdm660-common `5dacfb1` |
+| `-Wunused-variable` w `libcameracompat`, `macloader` | nowszy clang + `-Werror` | sdm660-common `ec80b42`, `bdf4272` |
+| kernel: `-Wimplicit-enum-enum-cast` (A_STATUS → QDF_STATUS) w qcacld | nowszy clang | kernel `c498228` |
+
+Sprawdzone z wyprzedzeniem (budują się): wszystkie moduły `MODULES-IN-device-blackberry`,
+`-hardware-blackberry`, `-vendor-blackberry`, `-hardware-qcom-caf-sdm660`; aplikacje Doze,
+BlackBerrySettings_athena, BlackBerryKeyboardLayouts, BlackBerryWallpapers, Aperture,
+ApertureLensLauncher; `selinux_policy`; cały kernel. Nie sprawdzone osobno: porty w
+frameworks/base, frameworks/native, Bluetooth (kompilowały się w buildzie bez błędów do ~65%).
+
+**Wnioski:**
+- Tryb low-memory: brakujące zależności wychodzą dopiero w ninja jako
+  `module X missing dependencies: Y`. Lista wszystkich: `grep -ho "module [^ ]* missing
+  dependencies: [^']*" out/soong/build.lineage_athena.*.ninja | sort -u`. Porównaj moduły z
+  `get_build_var PRODUCT_PACKAGES`, `PRODUCT_APEX_SYSTEM_SERVER_JARS` itd.; reszta (testy,
+  automotive, Cuttlefish, VNDK snapshot, SDK/dist, `otatools_package`) nie trafia do obrazu.
+- Przerwane buildy zostawiają ucięte pliki w `out/` (np. `webview.apk` ucięty równo na 224 MiB,
+  pusty `common.sdump`), które siso uważa za aktualne. Objawy: `zip END header not found`,
+  `Failed to parse JSON: Line 1, Column 1`. Lek: usunąć wskazany plik i zbudować cel ponownie.
+- Szybka weryfikacja bez pełnego builda: `sh out/siso_failed_commands.sh` uruchamia ponownie
+  krok, który padł (po poprawce źródła).
 
 ## 3. Pierwsza kompilacja: gdzie spodziewać się błędów
 
@@ -166,20 +203,20 @@ D4 odrzucone (bez auto-zatwierdzania App Links), D5 odrzucone (bez FM, Cast, Lat
 DownloadProvider). Bez Lokker/K12KB, bez wbudowanych GApps, athenaKB i BlackBerry Keyboard
 instalowane ręcznie przez użytkownika (obejście Alt usunięte, base `19fdb6e`).
 
-## 7. Stan repozytoriów (czubki gałęzi na GitHubie)
+## 7. Stan repozytoriów (czubki gałęzi na GitHubie, 2026-11-27)
 
 | Repo (Xmind404/…) | Gałąź | Czubek |
 |---|---|---|
-| android_device_blackberry_athena | lineage-24.0 | ten commit (po `369a2fb`) |
-| android_device_blackberry_sdm660-common | lineage-24.0 | `dbab284` |
+| android_device_blackberry_athena | lineage-24.0 | ten commit (po `a0d367a`) |
+| android_device_blackberry_sdm660-common | lineage-24.0 | `bdf4272` |
 | android_vendor_blackberry_athena | lineage-24.0 | `d6320b9` |
 | android_vendor_blackberry_sdm660-common | lineage-24.0 | `efa4f81` |
-| android_vendor_blackberry_media (publiczne) | lineage-24.0 | `0b007b8` |
-| android_kernel_blackberry_sdm660-4p19 | lineage-24.0-athena | `b420eb2` |
+| android_vendor_blackberry_media (publiczne) | lineage-24.0 | `accf82e` |
+| android_kernel_blackberry_sdm660-4p19 | lineage-24.0-athena | `c498228` |
 | android_hardware_blackberry | lineage-24.0-athena | `5f7c623` |
 | android_hardware_qcom_audio | lineage-24.0-caf-sdm660 | `eb8b11e` |
 | android_hardware_qcom_display | lineage-24.0-caf-sdm660 | `2b97ab4` |
-| android_frameworks_base | lineage-24.0-athena | `ede3b42` |
+| android_frameworks_base | lineage-24.0-athena | `4ce8952` |
 | android_frameworks_native | lineage-24.0-athena | `a475b9f` |
 | android_packages_modules_Bluetooth | lineage-24.0 | `afb7888` |
 | android_packages_apps_Aperture | lineage-24.0 | `be84f72` |
